@@ -1,0 +1,30 @@
+
+
+
+
+dependencies {
+	compile 'org.springframework:spring-context:4.0.6.RELEASE'
+	compile 'org.springframework:spring-core:4.0.6.RELEASE'
+	compile 'org.springframework:spring-tx:4.0.6.RELEASE'
+	compile 'org.springframework:spring-web:4.0.6.RELEASE'
+	compile 'org.springframework:spring-webmvc:4.0.6.RELEASE'
+	compile 'org.apache.struts:struts2-core:2.3.16.3'
+	compile 'org.apache.struts:struts2-convention-plugin:2.3.16.3'
+	compile 'org.hibernate:hibernate-core:4.3.6.Final'
+	compile 'org.hibernate:hibernate-entitymanager:4.3.6.Final'
+	compile 'javax.servlet:javax.servlet-api:3.1.0'
+	compile 'com.fasterxml.jackson.core:jackson-core:2.4.2'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
+	compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.2'
+	compile 'javax.inject:javax.inject:1'
+	//compile 'lin:util:0.0.1-SNAPSHOT'
+	//compile 'org.hibernate:ejb3-persistence:3.3.2.Beta1'
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			pom.artifactId = 'lin-core'
+		}
+	}
+}

@@ -1,0 +1,75 @@
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+
+    repositories {
+       mavenCentral()
+    }
+
+    
+
+   version = '0.0.1-SNAPSHOT'
+   //groupId 'lin.test'
+   //artifactId 'project1-sample'
+   //version '1.1'
+	//version = '0.1'
+
+    jar {
+        manifest.attributes provider: ''
+    }
+	
+	dependencies {
+		testCompile 'junit:junit:4.8.2'
+	}
+	
+//	uploadArchives {
+//		repositories {
+//		ivy {
+////			credentials {
+////				username "username"
+////				password "pw"
+////			}
+//			//url "file://C:/Users/lin/.gradle/"
+//			url "file://C:\\Users\\lin\\.gradle\\caches\\modules-2\\files-2.1\\"
+//			}
+//		}
+//	}
+	
+	apply plugin: 'maven'
+	
+//	configurations{
+//		sourceArchives
+//	  }
+//	  
+//	  artifacts{
+//		sourceArchives sourceJar
+//	  }
+	  
+//	  install.configuration = configurations.sourceArchives
+	  
+//	project.ext{
+//		releaseRepoUrl = "file://${project(':').projectDir}/../mvn-repo/releases"
+//		snapshotRepoUrl = "file://${project(':').projectDir}/../mvn-repo/snapshots"
+//	  }
+	
+		uploadArchives {
+			repositories {
+			mavenDeployer {
+				repository(url: "file://e:\\repo\\")
+				snapshotRepository(url: "file://e:\\repo\\")
+				//pom.version = '0.1'
+			}
+		}
+			
+	}
+		
+
+		task sourcesJar(type: Jar, dependsOn: classes) {
+			classifier 'sources'
+			from sourceSets.main.allSource
+		}
+		 
+		artifacts {
+			archives sourcesJar
+		}
+}

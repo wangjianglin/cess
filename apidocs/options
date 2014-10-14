@@ -1,0 +1,22 @@
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'D:/code/app/java/lin/util/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2014. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'D:/code/app/java/lin/util/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'lin.util 0.0.1-SNAPSHOT API'
+-linkoffline
+'http://docs.oracle.com/javase/8/docs/api' 'D:/code/app/java/lin/util/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'lin.util 0.0.1-SNAPSHOT API'

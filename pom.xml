@@ -1,27 +1,337 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>lin</groupId>
-  <artifactId>lin</artifactId>
-  <version>${lin.verison}</version>
-  <packaging>pom</packaging>
-  <name>lin</name>
-  <dependencies>
-  	<dependency>
-  		<groupId>junit</groupId>
-  		<artifactId>junit</artifactId>
-  		<version>4.8.2</version>
-  		<scope>test</scope>
-  	</dependency>
-  </dependencies>
-  <modules>
-  	<module>util</module>
-  	<module>client</module>
-  	<module>core</module>
-  	<module>demo</module>
-  	<module>web</module>
-  </modules>
-  
-  <properties>
-  		<lin.verison>0.0.1-SNAPSHOT</lin.verison>
-  </properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>lin</groupId>
+	<artifactId>lin</artifactId>
+	<version>${lin.verison}</version>
+	<packaging>pom</packaging>
+	<name>lin</name>
+	<url>https://github.com/wangjianglin/lin</url>
+
+	<properties>
+		<!-- github server corresponds to entry in ~/.m2/settings.xml -->
+		<github.global.server>github</github.global.server>
+		<lin.verison>0.0.1-SNAPSHOT</lin.verison>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!--  <jira.version>6.2.3</jira.version>
+
+<jira.data.version>6.2.3</jira.data.version>
+
+<amps.version>5.0.2</amps.version> -->
+	</properties>
+	
+	<!-- <distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>Temporary Staging Repository</name>
+			<url>file://${project.build.directory}/mvn-repo</url>
+		</repository>
+	</distributionManagement> -->
+    
+	<!-- <issueManagement>
+		<url>https://github.com/wangjianglin/lin/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses> -->
+
+	<!-- <scm>
+		<url>https://github.com/wangjianglin/github-maven-example</url>
+		<connection>scm:git:git://github.com/wangjianglin/github-maven-example.git</connection>
+		<developerConnection>scm:git:git@github.com:wangjianglin/github-maven-example.git</developerConnection>
+		
+	</scm>
+
+	<developers>
+		<developer>
+			<email>184041008@qq.com</email>
+			<name>lin</name>
+			<url>https://github.com/wangjianglin</url>
+			<id>wangjianglin</id>
+		</developer>
+	</developers> -->
+
+
+<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.1</version>
+				<configuration>
+					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+				</configuration>
+			</plugin>
+
+
+<!-- <plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>downloads-maven-plugin</artifactId>
+				<version>0.6</version>
+				<configuration>
+					<description>Official ${project.name} build of the ${project.version} release</description>
+					<override>true</override>
+					<includeAttached>true</includeAttached>
+					<server>github</server>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>upload</goal>
+						</goals>
+						<phase>install</phase>
+					</execution>
+				</executions>
+			</plugin> -->
+			
+			<plugin>
+			<inherited>false</inherited>
+			
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.10</version>
+				<configuration>
+					<message>Maven artifacts for ${project.version}</message> <!-- git commit message -->
+					<noJekyll>true</noJekyll> <!-- disable webpage processing -->
+					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
+					<branch>refs/heads/repo</branch> <!-- remote branch name -->
+					<includes>
+						<include>**/*</include>
+					</includes>
+					<repositoryName>repo</repositoryName> <!-- github repo name -->
+					<repositoryOwner>wangjianglin</repositoryOwner> <!-- github username -->
+					<override>true</override>
+					<includeAttached>true</includeAttached>
+					<server>github</server>
+				</configuration>
+				<executions>
+					<!-- run site-maven-plugin's 'site' target as part of the build's normal 
+						'deploy' phase -->
+					<execution>
+						<goals>
+							<goal>site</goal>
+							<!-- <goal>upload</goal> -->
+						</goals>
+						<phase>deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+	
+	<!-- <scm>
+		<url>https://github.com/wangjianglin/lin</url>
+		<connection>scm:git:git://github.com/wangjianglin/lin.git</connection>
+		<developerConnection>scm:git:git@github.com:wangjianglin/lin.git</developerConnection>
+	</scm>
+
+	<developers>
+		<developer>
+			<email>184041008@qq.com</email>
+			<name>lin</name>
+			<url>https://github.com/wangjianglin</url>
+			<id>wangjianglin</id>
+		</developer>
+	</developers> -->
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<modules>
+		<module>util</module>
+		<module>client</module>
+		<module>core</module>
+		<module>demo</module>
+		<module>web</module>
+	</modules>
+	<!-- <distributionManagement> <repository> <id>releases</id> <url>${project.build.directory}/repo/</url> 
+		<url>e:/repo</url> </repository> <snapshotRepository> <id>snapshots</id> 
+		<url>${project.build.directory}/repo/</url> <url>e:/repo</url> </snapshotRepository> 
+		</distributionManagement> <repositories> <repository> <id>lhfcws-mvn-repo</id> 
+		<url>https://raw.github.com/wangjianglin/repo/master/</url> <releases> <enabled>true</enabled> 
+		</releases> <snapshots> <enabled>true</enabled> </snapshots> </repository> 
+		</repositories> -->
+
+<!-- 
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>downloads-maven-plugin</artifactId>
+				<version>0.6</version>
+				<configuration>
+					<description>Official ${project.name} build of the
+						${project.version} release</description>
+					<override>true</override>
+					<includeAttached>true</includeAttached>
+					<server>github</server>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>upload</goal>
+						</goals>
+						<phase>install</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.7</version>
+				<configuration>
+					<message>Building site for ${project.version}</message>
+					<server>github</server>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>site</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<reportPlugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-project-info-reports-plugin</artifactId>
+							<version>2.2</version>
+							<configuration>
+								<dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+								<dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-javadoc-plugin</artifactId>
+							<version>2.7</version>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-surefire-report-plugin</artifactId>
+							<version>2.6</version>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-checkstyle-plugin</artifactId>
+							<version>2.6</version>
+						</plugin>
+					</reportPlugins>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		</build> -->
+		<!-- <plugin> <artifactId>maven-deploy-plugin</artifactId> <version>2.8.1</version> 
+			<configuration> <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/repo</altDeploymentRepository> 
+			</configuration> </plugin> -->
+		<!-- <plugin> <groupId>com.github.github</groupId> <artifactId>site-maven-plugin</artifactId> 
+			<version>0.9</version> <configuration> <message>Maven artifacts for ${project.version}</message> 
+			git commit message <noJekyll>true</noJekyll> disable webpage processing <outputDirectory>/home/lhfcws/coding/workspace/mvn-repo</outputDirectory> 
+			matches distribution management repository url above <outputDirectory>file://${project.basedir}/../repo</outputDirectory> 
+			<outputDirectory>${project.build.directory}/repo</outputDirectory> <outputDirectory>e:/repo</outputDirectory> 
+			<branch>refs/heads/repo</branch> remote branch name <includes> <include> 
+			**/* </include> </includes> <repositoryName>repo</repositoryName> github 
+			repo name <repositoryOwner>wangjianglin</repositoryOwner> github username 
+			</configuration> <executions> run site-maven-plugin's 'site' target as part 
+			of the build's normal 'deploy' phase <execution> <goals> <goal>site</goal> 
+			</goals> <phase>deploy</phase> </execution> </executions> </plugin> -->
+
+		<!-- <extensions> <extension> <artifactId>wagon-webdav-jackrabbit</artifactId> 
+			<groupId>org.apache.maven.wagon</groupId> <version>2.2</version> </extension> 
+			</extensions> -->
+	<!-- </build> -->
 </project>

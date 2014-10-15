@@ -4,10 +4,10 @@ import java.io.File;
 import java.net.URI;
 import java.util.List;
 
-import org.apache.http.client.AuthenticationHandler;
 import org.apache.http.client.CookieStore;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 import lin.util.Action;
 import lin.util.thread.AutoResetEvent;
@@ -50,27 +50,27 @@ this.name = name;
 			return baseUri;
 		}
 		
-		/**
-		 * 代理对象
-		 */
-		private AuthenticationHandler authenticationHandler=null;
-		/**
-		 * 设置代理
-		 * @param proxy
-		 */
-		public void setAuthenticationHandler(AuthenticationHandler proxy){
-			authenticationHandler = proxy;
-		}
-		
-		private CredentialsProvider credentialsProvider;
-		
+//		/**
+//		 * 代理对象
+//		 */
+//		private AuthenticationHandler authenticationHandler=null;
+//		/**
+//		 * 设置代理
+//		 * @param proxy
+//		 */
+//		public void setAuthenticationHandler(AuthenticationHandler proxy){
+//			authenticationHandler = proxy;
+//		}
+//		
+//		private CredentialsProvider credentialsProvider;
+//		
 		/**
 		 * 
 		 * @param credsProvider
 		 */
-		public void setCredentialsProvider(CredentialsProvider credsProvider){
-			credentialsProvider = credsProvider;
-		}
+//		public void setCredentialsProvider(CredentialsProvider credsProvider){
+//			credentialsProvider = credsProvider;
+//		}
 
 	public void addHttpRequestListener(HttpRequestListener listener){
 			
@@ -98,6 +98,8 @@ this.name = name;
 	public HttpCommunicateResult request(lin.client.http.packages.Package pack,ResultFunction result){
 		return request(pack,result,null);
 	}
+	
+	private CloseableHttpClient http = HttpClients.createDefault();
 	
 	public HttpCommunicateResult request(lin.client.http.packages.Package pack,final ResultFunction result,final FaultFunction fault){
 		final HttpCommunicateResult httpHesult = new HttpCommunicateResult();
@@ -143,7 +145,7 @@ this.name = name;
 					}
 				});
 			}
-		},httpHesult);
+		},httpHesult,http);
 		httpHesult.request = request;
 		httpHesult.set = set;
 		request.request();

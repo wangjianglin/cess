@@ -104,9 +104,7 @@ public class FileDownload {
 		}
 		File file = new File(dir.getAbsoluteFile()+System.getProperty("file.separator")+"cache.tmp");
 		file.deleteOnExit();
-		OutputStream _out = null;
-		try{
-			_out = new FileOutputStream(file);
+		try(OutputStream _out = new FileOutputStream(file)){
 			byte[] bs = new byte[4096];
 			int readCount = 0;
 			while((readCount = _in.read(bs)) != -1){
@@ -114,18 +112,6 @@ public class FileDownload {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-		}finally{
-			try {
-				_in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			try {
-				_out.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 

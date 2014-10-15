@@ -4,15 +4,15 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 
-import lin.client.http.HttpCommunicate;
 
 public class TestHttp {
 
 	
+	private Socket socket;
+
 	@org.junit.Test
 	public void test() throws Exception{
-		//HttpCommunicate.global.getClass();
-		Socket socket = new Socket("192.168.1.18", 8080);
+		socket = new Socket("192.168.1.18", 8080);
 		java.io.PrintStream out = new PrintStream(socket.getOutputStream());
 		//out.println("GET / HTTP/1.1");
 		out.print("GET /web/ HTTP/1.1\r\n" +

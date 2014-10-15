@@ -282,9 +282,10 @@ public class LinEntityManagerFactoryBean extends
 			this.persistenceUnitInfo.getProperties().putAll(properties);
 		}
 		JpaVendorAdapter jpaVendorAdapter = getJpaVendorAdapter();
-		@SuppressWarnings({ "unchecked", "unused" })
-		Map<String, Object> tmp = (Map<String, Object>) jpaVendorAdapter.getJpaPropertyMap();//
-		//tmp.put("hibernate.hbm2ddl.auto", "create");
+		if(jpaVendorAdapter != null){
+			@SuppressWarnings({ "unchecked", "unused" })
+			Map<String, Object> tmp = (Map<String, Object>) jpaVendorAdapter.getJpaPropertyMap();//
+		}
 		if (jpaVendorAdapter != null
 				&& this.persistenceUnitInfo instanceof SmartPersistenceUnitInfo) {
 			((SmartPersistenceUnitInfo) this.persistenceUnitInfo)

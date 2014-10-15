@@ -2,21 +2,21 @@ package lin.client;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 public class HttpClient {
 
 	@org.junit.Test
 	public void testHttpClient() throws Exception{
-		DefaultHttpClient http = new DefaultHttpClient();
+		///DefaultHttpClient http = new DefaultHttpClient();
+		CloseableHttpClient http = HttpClients.createDefault();
 		  HttpGet get = new HttpGet("http://192.168.1.18:8080/web/extjs-4.1.1/ext-all.gzip");
 		  
 		  //get.addHeader("accept-encoding", "gzip,deflate");
@@ -36,10 +36,11 @@ public class HttpClient {
 	        int total = 0;
 	        
 	        new File("c:\\tmp.gzip").createNewFile();
-	        OutputStream _out = new FileOutputStream(new File("c:\\tmp.gzip"));
-	        while((count = instream.read(data))!=-1){
-	        	total+=count;
-	        	_out.write(data, 0, count);
+	        try(OutputStream _out = new FileOutputStream(new File("c:\\tmp.gzip"))){
+		        while((count = instream.read(data))!=-1){
+		        	total+=count;
+		        	_out.write(data, 0, count);
+		        }
 	        }
 	        System.out.println("data:"+total);
 	        

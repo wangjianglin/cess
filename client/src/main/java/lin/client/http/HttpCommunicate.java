@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.client.AuthenticationHandler;
 import org.apache.http.client.CookieStore;
-import org.apache.http.client.CredentialsProvider;
 
 /**
  * 
@@ -129,18 +127,18 @@ public class HttpCommunicate {
 	 * 
 	 * @param proxy
 	 */
-	public static void setAuthenticationHandler(AuthenticationHandler proxy) {
-		global.setAuthenticationHandler(proxy);
-	}
+//	public static void setAuthenticationHandler(AuthenticationHandler proxy) {
+//		global.setAuthenticationHandler(proxy);
+//	}
 
 
 	/**
 	 * 
 	 * @param credsProvider
 	 */
-	public static void setCredentialsProvider(CredentialsProvider credsProvider) {
-		global.setCredentialsProvider(credsProvider);
-	}
+//	public static void setCredentialsProvider(CredentialsProvider credsProvider) {
+//		global.setCredentialsProvider(credsProvider);
+//	}
 
 	public static void addHttpRequestListener(HttpRequestListener listener) {
 		global.addHttpRequestListener(listener);

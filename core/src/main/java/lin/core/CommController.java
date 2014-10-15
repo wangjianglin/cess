@@ -23,19 +23,12 @@ public class CommController{// implements Controller {
 	
 	
 	@ResponseBody
-	@RequestMapping("json")
-	public String[] json(HttpServletRequest request,HttpServletResponse response){
-		//javax.websocket.Session session = null;
-		System.out.println("ok.");
-		//return new ModelAndView("hello3","message","hello!");
-		return new String[]{"one","two"};
-	}
-	
-	@RequestMapping("json2")
-	public String[] json2(HttpServletRequest request,HttpServletResponse response){
-		//javax.websocket.Session session = null;
-		System.out.println("ok.");
-		//return new ModelAndView("hello3","message","hello!");
-		return new String[]{"one","two"};
+	@RequestMapping("/sessionId")
+	public String sessionId(HttpServletRequest request,HttpServletResponse response){
+		return request.getSession().getId();
+//		//javax.websocket.Session session = null;
+//		System.out.println("ok.");
+//		//return new ModelAndView("hello3","message","hello!");
+//		return new String[]{"one","two"};
 	}
 }

@@ -39,49 +39,36 @@ public class HttpCommunicateTest {
 		//pack.setData("测试中文！");
 		//pack.setData("test");
 		//HttpCommunicate.setCommUrl(new URI("http://10.100.3.28:8080/web"));
-		HttpCommunicate.setCommUrl(new URI("http://localhost:8080/web/__http_comm_protocol__"));
-		for(int n=0;n<10;n++){
-			HttpCommunicate.get("name"+n).setCommUrl(new URI("http://localhost:8080/web/__http_comm_protocol__"));
-			HttpCommunicate.get("name"+n).request(sessionPack, new ResultListener() {
+		class TmpResultListener implements ResultListener {
 			//HttpCommunicate.request(sessionPack, new ResultListener() {
+			private String name = "";
+			public TmpResultListener(String name){
+				this.name = name;
+			}
+			@Override
+			public void result(Object obj, List<Error> warning) {
+				System.out.println(name+":"+obj);
+			}
+			
+			@Override
+			public void progress(long count, long total) {
 				
-				@Override
-				public void result(Object obj, List<Error> warning) {
-					System.out.println("------------"+obj);
-				}
-				
-				@Override
-				public void progress(long count, long total) {
-					
-				}
-				
-				@Override
-				public void fault(Error error) {
-					System.out.println("error!");
-				}
-			}).WaitForEnd();
+			}
+			
+			@Override
+			public void fault(Error error) {
+				System.out.println("error!");
+			}
+		};
+		HttpCommunicate.setCommUrl(new URI("http://localhost:8080"));
+		for(int n=0;n<10;n++){
+			HttpCommunicate.get("name"+n).setCommUrl(new URI("http://localhost:8080/"));
+			HttpCommunicate.get("name"+n).request(sessionPack, new TmpResultListener("name"+n)).WaitForEnd();
 		}
 		
 		for(int n=0;n<10;n++){
 			//HttpCommunicate.get("name"+n).setCommUrl(new URI("http://localhost:8080/sync-client"));
-			HttpCommunicate.request(sessionPack, new ResultListener() {
-			//HttpCommunicate.request(sessionPack, new ResultListener() {
-				
-				@Override
-				public void result(Object obj, List<Error> warning) {
-					System.out.println("------------"+obj);
-				}
-				
-				@Override
-				public void progress(long count, long total) {
-					
-				}
-				
-				@Override
-				public void fault(Error error) {
-					System.out.println("error!");
-				}
-			}).WaitForEnd();
+			HttpCommunicate.request(sessionPack, new TmpResultListener("Global")).WaitForEnd();
 		}
 		
 		System.out.println("end!");

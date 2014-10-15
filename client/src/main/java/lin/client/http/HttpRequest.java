@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -12,11 +13,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-import sun.misc.BASE64Decoder;
 
 /**
  * 
@@ -47,10 +45,11 @@ public class HttpRequest {
 	//public static final String VERSION = "__version__";
 	public static final String VERSION = "0.1";
 	private static final String HTTP_COMM_PROTOCOL = "__http_comm_protocol__";
-	public HttpRequest(HttpCommunicateImpl impl,lin.client.http.packages.Package pack,ResultListener listener, HttpCommunicateResult result){
+	public HttpRequest(HttpCommunicateImpl impl,lin.client.http.packages.Package pack,ResultListener listener, HttpCommunicateResult result,CloseableHttpClient http){
 		this.impl = impl;
 		this.pack = pack;
 		this.listener = listener;
+		this.http = http;
 		//this.result = result;
 	}
 	private HttpPost post = null;
@@ -65,6 +64,7 @@ public class HttpRequest {
 			//result.lock.unlock();
 		}
 	}
+	private CloseableHttpClient http;// = HttpClients.createDefault();
 	public void request(){
 		Thread thread = new Thread(new Runnable() {
 
@@ -76,9 +76,9 @@ public class HttpRequest {
 					long errorCode = 0;
 					try {
 						//HTTP请求
-						DefaultHttpClient http = new DefaultHttpClient();
-//						CloseableHttpClient http = HttpClientBuilder.create().build();
-						http.setCookieStore(impl.getCookieStore());
+//						DefaultHttpClient http = new DefaultHttpClient();
+						//CloseableHttpClient http = HttpClientBuilder.create().build();
+//						http.setCookieStore(impl.getCookieStore());
 						post = new HttpPost(HttpUtils.uri(impl,pack));
 						post.addHeader(HTTP_COMM_PROTOCOL, VERSION);
 						//http.setCookieSpecs(new CookieSpecRegistry());
@@ -110,7 +110,8 @@ public class HttpRequest {
 						jsonParam = buffer.toString();
 						jsonParam = URLDecoder.decode(jsonParam, "utf-8");
 						//jsonParam = jsonParam;
-						byte[] tmpBs = new BASE64Decoder().decodeBuffer(jsonParam);
+						//byte[] tmpBs = new BASE64Decoder().decodeBuffer(jsonParam);
+						byte[] tmpBs = Base64.getDecoder().decode(jsonParam);
 						jsonParam = new String(tmpBs,"utf-8");
 						//System.out.println("json:"+tmpJsonParams);
 						//jsonParam = new String(jsonParam.getBytes(),System.getProperty("sun.jnu.encoding"));

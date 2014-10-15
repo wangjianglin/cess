@@ -3,7 +3,6 @@ package lin.core.util;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,32 +36,16 @@ public class FileUpload {
 	 * @param src
 	 * @param dest
 	 */
-	private void FileCopy(File src,File dest){
-		InputStream _in = null;
-		OutputStream _out = null;
-		try {
-			_in = new FileInputStream(src);
-			//dest.mkdirs();
-			_out = new FileOutputStream(dest);
+	private void FileCopy(File src, File dest) {
+		try (InputStream _in = new FileInputStream(src);
+				OutputStream _out = new FileOutputStream(dest)) {
 			byte[] bs = new byte[4096];
 			int count = 0;
-			while((count = _in.read(bs))!=-1){
+			while ((count = _in.read(bs)) != -1) {
 				_out.write(bs, 0, count);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			
-			try {
-				_in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				_out.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 	
@@ -137,50 +120,34 @@ public class FileUpload {
 		return null;
 	}
 	
-	public File merge(String md5){
+	public File merge(String md5) {
 		File dir = this.cacheDir(md5);
 		String fileSeparator = System.getProperty("file.separator");
-		File mergeFile = new File(dir.getAbsoluteFile() + fileSeparator + "merge.tmp");
+		File mergeFile = new File(dir.getAbsoluteFile() + fileSeparator
+				+ "merge.tmp");
 		try {
 			mergeFile.createNewFile();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		File[] files = getFiles(md5);
-			OutputStream _out = null;
-				try {
-					_out = new FileOutputStream(mergeFile);
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
+		try (OutputStream _out = new FileOutputStream(mergeFile)) {
+			byte[] bs = new byte[4096];
+			for (File file : files) {
+				try (InputStream _in = new FileInputStream(file)) {
+					int count = 0;
+					while ((count = _in.read(bs)) != -1) {
+						_out.write(bs, 0, count);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			InputStream _in = null;
-				byte[] bs = new byte[4096];
-		for(File file : files){
 
-			try {
-				_in = new FileInputStream(file);
-				int count = 0;
-				while((count = _in.read(bs))!=-1){
-					_out.write(bs, 0, count);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}finally{
-				
-				try {
-					_in.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			}
-			
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-				try {
-					_out.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				return mergeFile;
+		return mergeFile;
 	}
 	
 	private long[] parse(String name){

@@ -11,31 +11,18 @@
   xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
   http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
   <display-name>demo Web</display-name>
-<!--   
-  <context-param>
-  <param-name>contextClass</param-name>
-  <param-value>ad.cloud.spring.AdWebApplicationContext</param-value>
-  </context-param>
-<context-param> 
-    <param-name>contextConfigLocation</param-name> 
-    <param-value>/WEB-INF/classes/applicationContext.xml</param-value> 
-    可载入多个配置文件分隔符 , ;  \t \n 
-  </context-param> 
-  
 
     
-    
-  <listener> 
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
-    listener-class>ad.cloud.spring.ContextLoaderListener</listener-class 
-  </listener>  -->
-    
 <context-param> 
     <param-name>contextConfigLocation</param-name> 
-    <param-value>classpath*:META-INF/lin-spring-bean.xml</param-value> 
+    <param-value>classpath*:META-INF/lin/lin-spring-bean.xml</param-value> 
 <!--     可载入多个配置文件分隔符 , ;  \t \n  -->
   </context-param> 
   
+
+<listener>
+    <listener-class>lin.core.web.LoggingListener</listener-class>
+</listener>
   <listener> 
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
    
@@ -52,68 +39,23 @@
     <filter-class>lin.core.web.CommFilter</filter-class>
 </filter>
 
-<!-- <filter>
-    <filter-name>ResourceRequestFilter</filter-name>
-    <filter-class>lin.core.web.ResourceRequestFilter</filter-class>
-    <init-param>
-        <param-name>location</param-name>
-        <param-value>classpath:/WEB-INF/content/</param-value>
-    </init-param>
-</filter>
-
-<filter>
-    <filter-name>ResourceRequestFilter2</filter-name>
-    <filter-class>lin.core.web.ResourceRequestFilter</filter-class>
-    <init-param>
-        <param-name>location</param-name>
-        <param-value>/WEB-INF/content/</param-value>
-    </init-param>
-</filter> -->
-<!-- <filter-mapping>
-    <filter-name>resource filter</filter-name>
-    <url-pattern>/__http_comm_protocol__*</url-pattern>
-</filter-mapping>
 <filter-mapping>
     <filter-name>resource filter</filter-name>
-    <url-pattern>/__http_comm_protocol__</url-pattern>
-</filter-mapping> -->
-<filter-mapping>
-    <filter-name>resource filter</filter-name>
-   <!--  <url-pattern>/__http_comm_protocol__/*</url-pattern> -->
     <url-pattern>/*</url-pattern>
 </filter-mapping>
-<!-- <filter-mapping>
-    <filter-name>ResourceRequestFilter</filter-name>
-    <url-pattern>/web/*</url-pattern>
-</filter-mapping>
-<filter-mapping>
-    <filter-name>ResourceRequestFilter2</filter-name>
-    <url-pattern>/web2/*</url-pattern>
-</filter-mapping>
-<filter-mapping>
-    <filter-name>ResourceRequestFilter2</filter-name>
-    <url-pattern>/web3/*</url-pattern>
-</filter-mapping> -->
+
 <servlet>
 		<servlet-name>spring web</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath*:/META-INF/lin-spring-web.xml</param-value>
+			<param-value>classpath*:/META-INF/lin/lin-spring-web.xml</param-value>
 		</init-param>
-		<!-- <init-param>  
-	        <param-name>detectAllHandlerMappings</param-name>  
-	        <param-value>false</param-value>  
-	    </init-param> 
-	    <init-param>  
-	        <param-name>detectAllHandlerAdapters</param-name>  
-	        <param-value>false</param-value>  
-	    </init-param>  --> 
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 <servlet>
-    <servlet-name>ResourceRequestFilter</servlet-name>
+    <servlet-name>ResourceRequestServlet</servlet-name>
     <servlet-class>lin.core.web.ResourceRequestServlet</servlet-class>
     <init-param>
         <param-name>location</param-name>
@@ -121,51 +63,27 @@
     </init-param>
 </servlet>
 
-<servlet>
-    <servlet-name>ResourceRequestFilter2</servlet-name>
-    <servlet-class>lin.core.web.ResourceRequestServlet</servlet-class>
-    <init-param>
-        <param-name>location</param-name>
-        <param-value>/WEB-INF/content/</param-value>
-    </init-param>
-</servlet>
-
-   <!-- 
-    <servlet-mapping>
-		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping> -->
-	<!-- <servlet-mapping>
-		<servlet-name>spring web</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping> -->
 	<servlet-mapping>
 		<servlet-name>spring web</servlet-name>
 		<url-pattern>*.action</url-pattern>
 	</servlet-mapping>
-	<!-- <servlet-mapping>
-		<servlet-name>spring web</servlet-name>
-		<url-pattern>/web/*</url-pattern>
-	</servlet-mapping> -->
-	
-	
+	<!-- cxf servlet -->
+	<servlet>
+		<servlet-name>CXFServlet</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 	<servlet-mapping>
-    <servlet-name>ResourceRequestFilter</servlet-name>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/webservice/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+    <servlet-name>ResourceRequestServlet</servlet-name>
     <url-pattern>/web/*</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>ResourceRequestFilter2</servlet-name>
-    <url-pattern>/web2/*</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>ResourceRequestFilter2</servlet-name>
-    <url-pattern>/web3/*</url-pattern>
 </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
     
-    
-	
 </web-app>

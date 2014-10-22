@@ -143,4 +143,6 @@
         <property name="password" value="${database.password}"/>
     </bean> -->
 	
+	
+	<import resource="classpath*:META-INF/lin/lin-cxf-bean.xml"/>
     </beans>

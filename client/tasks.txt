@@ -1,0 +1,28 @@
+TCP 通信
+
+
+1、CommunicateListener只能单线程工作,
+
+CommunicateListener中的响应支持异步处理
+
+2、多Session时，测试Coummunicate类的InitServerImpl方法中下面这段代码：
+
+lock (serverSessions)
+{
+    serverSessions.Remove(session);
+    if (sessionListener != null)
+    {
+        sessionListener.Destory(session);
+    }
+}
+
+
+
+2、JSON编码
+
+3、tcp通信中的注解处理
+
+
+web socket
+
+//TCP 头中回一个字节表示数据的上下行

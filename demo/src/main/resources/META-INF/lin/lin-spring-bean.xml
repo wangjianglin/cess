@@ -12,6 +12,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 
+
+<import resource="classpath*:META-INF/lin/lin-cxf-bean.xml"/>
     <!-- JPA相关配置 -->
     
    <!-- Annotation事务 -->  

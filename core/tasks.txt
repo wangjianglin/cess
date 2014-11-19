@@ -1,0 +1,7 @@
+web socket
+
+spring schemas
+
+从jar包中读取JSP文件
+
+采用注解驱动CXF Rest服务，参考 lin.core.cxf.Jsr181HandlerMapping

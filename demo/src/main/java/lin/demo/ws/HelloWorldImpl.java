@@ -13,7 +13,7 @@ public class HelloWorldImpl implements HelloWorld {
 		return name + "，您好！";
 	}
 
-	public String sayHello(User user) {
+	public String sayHello(String name,User user) {
 		return user.getName() + "，您好！";
 	}
 

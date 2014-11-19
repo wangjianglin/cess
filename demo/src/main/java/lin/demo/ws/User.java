@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;;
 
 
-@XmlRootElement(name="Users")
-@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlRootElement(name="Users")
+//@XmlAccessorType(XmlAccessType.FIELD)
 public class User implements Serializable {
 
 	/**

@@ -2,7 +2,9 @@ package lin.demo.ws;
 
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -26,10 +28,11 @@ public interface HelloWorld {
 	@Path("/get")
 	public User get();
 
-	@GET
+	@POST
 //	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/sayHello/{name}")
-	public String sayHello(@PathParam("user") User user);
+	@Produces({ MediaType.APPLICATION_JSON})
+	public String sayHello(@PathParam("name") String name,@PathParam("user") User user);
 
 	@GET
 //	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

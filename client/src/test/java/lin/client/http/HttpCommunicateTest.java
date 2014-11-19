@@ -3,6 +3,7 @@ package lin.client.http;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -12,8 +13,37 @@ import lin.client.http.packages.TestPackage;
 
 public class HttpCommunicateTest {
 
+	private Object obj = new Object();
+	private int c = 0;
 	@Test
-	public void testHttp() throws IOException, URISyntaxException{
+	public void testHttp() throws Exception{
+		int M = 700;
+		for(int n=0;n<M;n++){
+			Thread thread = new Thread(()->{
+				//System.out.println("thread:"+n);
+				double N = 50;
+				Date start = new Date();
+				for(int m=0;m<N;m++){
+					try {
+						testHttpImpl();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				Date end = new Date();
+				//synchronized(HttpCommunicateTest.class.this){
+				synchronized(obj){
+					System.out.println("avg:"+(end.getTime()-start.getTime())/N);
+					c++;
+				}
+			});
+			thread.start();
+		}
+		while(c < M){
+			Thread.sleep(100);
+		}
+	}
+		private void testHttpImpl()throws IOException, URISyntaxException{
 		TestPackage pack = new TestPackage();
 		pack.setData("测试中文！");
 		//pack.setData("test");
@@ -21,11 +51,11 @@ public class HttpCommunicateTest {
 		//client.setCommUrl(new URI("http://localhost:8080/web/__http_comm_protocol__"));
 		client.setCommUrl(new URI("http://localhost/__http_comm_protocol__"));
 		//client.setCommUrl(new URI("http://localhost/core/comm/test.action"));
-		client.setCommUrl(new URI("http://localhost:8080/"));
+		client.setCommUrl(new URI("http://localhost:8080/lin.demo"));
 		client.request(pack, (Object obj, List<Error> warning)-> {
-				System.out.println("------------"+obj);
+				//System.out.println("------------"+obj);
 			},error -> {
-				System.out.println("error!");
+				System.out.println("error:"+error.getCode());
 			}
 		).WaitForEnd();
 		

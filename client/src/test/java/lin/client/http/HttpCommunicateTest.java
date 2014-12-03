@@ -8,9 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import lin.client.http.packages.SessionIdPackage;
-import lin.client.http.packages.TestPackage;
-
 public class HttpCommunicateTest {
 
 	private Object obj = new Object();
@@ -57,7 +54,7 @@ public class HttpCommunicateTest {
 			},error -> {
 				System.out.println("error:"+error.getCode());
 			}
-		).WaitForEnd();
+		).waitForEnd();
 		
 		
 		//System.in.read();
@@ -93,12 +90,12 @@ public class HttpCommunicateTest {
 		HttpCommunicate.setCommUrl(new URI("http://localhost:8080"));
 		for(int n=0;n<10;n++){
 			HttpCommunicate.get("name"+n).setCommUrl(new URI("http://localhost:8080/"));
-			HttpCommunicate.get("name"+n).request(sessionPack, new TmpResultListener("name"+n)).WaitForEnd();
+			HttpCommunicate.get("name"+n).request(sessionPack, new TmpResultListener("name"+n)).waitForEnd();
 		}
 		
 		for(int n=0;n<10;n++){
 			//HttpCommunicate.get("name"+n).setCommUrl(new URI("http://localhost:8080/sync-client"));
-			HttpCommunicate.request(sessionPack, new TmpResultListener("Global")).WaitForEnd();
+			HttpCommunicate.request(sessionPack, new TmpResultListener("Global")).waitForEnd();
 		}
 		
 		System.out.println("end!");

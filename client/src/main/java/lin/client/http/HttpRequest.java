@@ -24,7 +24,7 @@ import org.apache.http.message.BasicNameValuePair;
  */
 public class HttpRequest {
 
-	private lin.client.http.packages.Package pack;
+	private lin.client.http.Package pack;
 	private ResultListener listener;
 	//private HttpCommunicateResult result;
 	private HttpCommunicateImpl impl;
@@ -45,7 +45,7 @@ public class HttpRequest {
 	//public static final String VERSION = "__version__";
 	public static final String VERSION = "0.1";
 	private static final String HTTP_COMM_PROTOCOL = "__http_comm_protocol__";
-	public HttpRequest(HttpCommunicateImpl impl,lin.client.http.packages.Package pack,ResultListener listener, HttpCommunicateResult result,CloseableHttpClient http){
+	public HttpRequest(HttpCommunicateImpl impl,lin.client.http.Package pack,ResultListener listener, HttpCommunicateResult result,CloseableHttpClient http){
 		this.impl = impl;
 		this.pack = pack;
 		this.listener = listener;

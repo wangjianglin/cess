@@ -88,20 +88,20 @@ this.name = name;
 		 cookieStore = new BasicCookieStore();
 	 }
 
-	public HttpCommunicateResult request(lin.client.http.packages.Package pack,ResultListener listener){
+	public HttpCommunicateResult request(lin.client.http.Package pack,ResultListener listener){
 		if(listener != null){
 			return request(pack,listener::result,listener::fault);
 		}
 		return request(pack,null,null);
 	}
 	
-	public HttpCommunicateResult request(lin.client.http.packages.Package pack,ResultFunction result){
+	public HttpCommunicateResult request(lin.client.http.Package pack,ResultFunction result){
 		return request(pack,result,null);
 	}
 	
 	private CloseableHttpClient http = HttpClients.createDefault();
 	
-	public HttpCommunicateResult request(lin.client.http.packages.Package pack,final ResultFunction result,final FaultFunction fault){
+	public HttpCommunicateResult request(lin.client.http.Package pack,final ResultFunction result,final FaultFunction fault){
 		final HttpCommunicateResult httpHesult = new HttpCommunicateResult();
 		final AutoResetEvent set = new AutoResetEvent(false);
 		HttpRequest request = new HttpRequest(this,pack, new ResultListener() {

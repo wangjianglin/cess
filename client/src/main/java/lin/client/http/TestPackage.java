@@ -1,9 +1,9 @@
-package lin.client.http.packages;
+package lin.client.http;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestPackage extends lin.client.http.packages.Package{
+public class TestPackage extends lin.client.http.Package{
 
 	public TestPackage(){
 		this.setUri("/core/comm/test.action");

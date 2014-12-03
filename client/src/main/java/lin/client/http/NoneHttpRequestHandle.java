@@ -2,8 +2,6 @@ package lin.client.http;
 
 import java.util.Map;
 
-import lin.client.http.packages.Package;
-
 /**
  * 
  * @author 王江林

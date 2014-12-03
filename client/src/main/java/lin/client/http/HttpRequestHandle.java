@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface HttpRequestHandle {
 	
-	Map<String,String> getParams(lin.client.http.packages.Package pack);
+	Map<String,String> getParams(lin.client.http.Package pack);
 
-    void response(lin.client.http.packages.Package pack, String resp, ResultListener listener);
+    void response(lin.client.http.Package pack, String resp, ResultListener listener);
 }

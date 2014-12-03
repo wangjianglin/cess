@@ -43,7 +43,7 @@ class HttpUtils {
     /// </summary>
     public static long getTimestamp() { return new Date().getTime(); }
     
-	public static String uri(HttpCommunicateImpl impl,lin.client.http.packages.Package pack){
+	public static String uri(HttpCommunicateImpl impl,lin.client.http.Package pack){
 		URI commUri = impl.getCommUri();
 		String uri = null;
 		String commUriString = null;

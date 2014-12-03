@@ -167,18 +167,18 @@ public class HttpCommunicate {
 //		return global.request(pack, listener);
 //	}
 	
-	public static HttpCommunicateResult request(lin.client.http.packages.Package pack,ResultListener listener){
+	public static HttpCommunicateResult request(lin.client.http.Package pack,ResultListener listener){
 		if(listener != null){
 			return global.request(pack,listener::result,listener::fault);
 		}
 		return global.request(pack,null,null);
 	}
 	
-	public static HttpCommunicateResult request(lin.client.http.packages.Package pack,ResultFunction result){
+	public static HttpCommunicateResult request(lin.client.http.Package pack,ResultFunction result){
 		return global.request(pack,result,null);
 	}
 	
-	public HttpCommunicateResult request(lin.client.http.packages.Package pack,final ResultFunction result,final FaultFunction fault){
+	public HttpCommunicateResult request(lin.client.http.Package pack,final ResultFunction result,final FaultFunction fault){
 		return global.request(pack,result,fault);
 	}
 

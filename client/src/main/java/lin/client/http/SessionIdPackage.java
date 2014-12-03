@@ -1,8 +1,8 @@
-package lin.client.http.packages;
+package lin.client.http;
 
 import java.util.Map;
 
-public class SessionIdPackage extends lin.client.http.packages.Package{
+public class SessionIdPackage extends lin.client.http.Package{
 
 	public SessionIdPackage(){
 		this.setUri("/core/comm/sessionId.action");

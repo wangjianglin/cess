@@ -29,7 +29,7 @@ public class HttpCommunicateResult {
 
 	public AutoResetEvent set;
 
-    public void Abort()
+    public void abort()
     {
     	request.abort();	
 //        if (abort != null)
@@ -38,7 +38,7 @@ public class HttpCommunicateResult {
 //        }
     }
 
-    public void WaitForEnd()
+    public void waitForEnd()
     {
     	set.waitOne();
 //    	lock.lock();
@@ -58,7 +58,7 @@ public class HttpCommunicateResult {
     }
     public boolean getResult()
     {
-    	this.WaitForEnd();
+    	this.waitForEnd();
     	return this._result;
 //        get
 //        {

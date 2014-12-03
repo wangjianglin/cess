@@ -38,6 +38,6 @@ public class MapPackageTest {
 			@Override
 			public void progress(long count, long total) {
 				
-			}}).WaitForEnd();;
+			}}).waitForEnd();;
 	}
 }

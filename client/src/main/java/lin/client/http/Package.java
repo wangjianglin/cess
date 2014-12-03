@@ -1,11 +1,7 @@
-package lin.client.http.packages;
+package lin.client.http;
 
 import java.lang.reflect.Type;
 import java.util.Map;
-
-import lin.client.http.HttpRequestHandle;
-import lin.client.http.JsonHttpRequestHandle;
-import lin.client.http.NoneHttpRequestHandle;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package lin.client.http.packages;
+package lin.client.http;
 
 /**
  * 

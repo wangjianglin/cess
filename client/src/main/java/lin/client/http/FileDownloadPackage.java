@@ -1,9 +1,6 @@
-package lin.client.http.packages;
+package lin.client.http;
 
 import java.util.Map;
-
-import lin.client.http.HttpRequestHandle;
-import lin.client.http.ResultListener;
 
 /**
  * 

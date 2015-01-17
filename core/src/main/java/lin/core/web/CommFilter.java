@@ -86,8 +86,8 @@ public class CommFilter implements javax.servlet.Filter{
 			return;
 		}
 		String comm = request.getHeader(Constants.HTTP_COMM_PROTOCOL);
-		if(Constants.VERSION.equals(comm)){
-			String tmpJsonParams = request.getParameter(Constants.JSON_PARAM);
+		if(Constants.HTTP_VERSION.equals(comm)){
+			String tmpJsonParams = request.getParameter(Constants.HTTP_JSON_PARAM);
 		//if(version != null){
 			if(tmpJsonParams != null && !"".equals(tmpJsonParams)){
 				Map<String,String[]> tmpMap =processEncryptData(request,tmpJsonParams);
@@ -135,7 +135,7 @@ public class CommFilter implements javax.servlet.Filter{
 	private Map<String,String[]> processEncryptData(HttpServletRequest request,String tmpJsonParams){
 
 		Map<String,String[]> tmpMap = new HashMap<String, String[]>();	
-		String coding = request.getParameter(Constants.REQUEST_CODING);
+		String coding = request.getParameter(Constants.HTTP_REQUEST_CODING);
 		if(coding == null || "".equals(coding)){
 			coding = "utf-8";
 		}

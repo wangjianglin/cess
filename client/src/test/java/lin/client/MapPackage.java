@@ -8,6 +8,7 @@ import java.util.Map;
 public class MapPackage extends lin.client.http.Package {
 
 	public MapPackage(){
+		super("/web/action/map!test.action");
 		//Class<?> type = datas.getClass();//datas.getClass().getGenericSuperclass()
 		//TypeVariable tv                                                                                                                                                                                                                                                                                                                                                      ;
 		//System.out.println("type:"+t);
@@ -28,7 +29,6 @@ public class MapPackage extends lin.client.http.Package {
 				return new Type[]{String.class,String.class};
 			}
 		});
-		this.setUri("/web/action/map!test.action");
 		
 	}
 	

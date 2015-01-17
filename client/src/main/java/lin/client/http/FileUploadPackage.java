@@ -3,6 +3,8 @@ package lin.client.http;
 import java.io.File;
 import java.util.Map;
 
+import org.apache.http.message.AbstractHttpMessage;
+
 /**
  * 
  * @author 王江林
@@ -14,7 +16,7 @@ public class FileUploadPackage extends Package {
 	private static class FileUploadHttpRequestListener implements HttpRequestHandle{
 
 		@Override
-		public Map<String, String> getParams(Package pack) {
+		public Map<String, String> getParams(AbstractHttpMessage httpMessage,Package pack) {
 			return null;
 		}
 
@@ -33,6 +35,7 @@ public class FileUploadPackage extends Package {
 	 }
 	 
 	 public FileUploadPackage(File file){
+		 super("");
 		 this.file = file;
 		 this.setRequestHandle(HttpRequestHandle);
 	 }

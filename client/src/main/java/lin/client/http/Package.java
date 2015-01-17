@@ -28,8 +28,9 @@ public abstract class Package {
     /// </summary>
     //[DefaultValue(false)]
     private boolean enableCache;// { get; protected set; }
-    public Package()
+    public Package(String uri)
     {
+    	this.uri = uri;
         //EnableCache = false;
 //        UrlType = UrlType.RELATIVE;
 //        this.RequestHandle = JSON;
@@ -80,9 +81,10 @@ public abstract class Package {
 	public String getUri() {
 		return uri;
 	}
-	protected void setUri(String uri) {
-		this.uri = uri;
-	}
+	
+//	private void setUri(String uri) {
+//		this.uri = uri;
+//	}
 	public Type getRespType() {
 		return respType;
 	}

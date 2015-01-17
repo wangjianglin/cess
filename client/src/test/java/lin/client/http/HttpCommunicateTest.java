@@ -40,7 +40,7 @@ public class HttpCommunicateTest {
 			Thread.sleep(100);
 		}
 	}
-		private void testHttpImpl()throws IOException, URISyntaxException{
+	private void testHttpImpl()throws IOException, URISyntaxException{
 		TestPackage pack = new TestPackage();
 		pack.setData("测试中文！");
 		//pack.setData("test");
@@ -99,5 +99,26 @@ public class HttpCommunicateTest {
 		}
 		
 		System.out.println("end!");
+	}
+	
+	@Test
+	public void testComm()throws IOException, URISyntaxException{
+		TestPackage pack = new TestPackage();
+		pack.setData("测试中文！");
+		//pack.setData("test");
+		HttpCommunicateImpl client = HttpCommunicate.get("clien");
+		//client.setCommUrl(new URI("http://localhost:8080/web/__http_comm_protocol__"));
+		//client.setCommUrl(new URI("http://localhost/__http_comm_protocol__"));
+		//client.setCommUrl(new URI("http://localhost/core/comm/test.action"));
+		client.setCommUrl(new URI("http://localhost:8080/lin.demo/"));
+		client.request(pack, (Object obj, List<Error> warning)-> {
+				System.out.println("------------"+obj);
+			},error -> {
+				System.out.println("error:"+error.getCode());
+			}
+		).waitForEnd();
+		
+		
+		//System.in.read();
 	}
 }

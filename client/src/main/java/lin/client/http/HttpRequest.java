@@ -2,9 +2,7 @@ package lin.client.http;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -31,20 +29,20 @@ public class HttpRequest {
 	/**
 	 * json数据的参数名
 	 */
-	public static final String JSON_PARAM = "__jsonParam__";
+//	public static final String JSON_PARAM = "__jsonParam__";
 	/**
 	 * 客户端请求数据的编码参数方式
 	 */
-	public static final String REQUEST_CODING = "__request_coding__";
+//	public static final String REQUEST_CODING = "__request_coding__";
 	
 	/**
 	 * uri的属性名
 	 */
-	public static final String URI = "__uri__";
+//	public static final String URI = "__uri__";
 	
 	//public static final String VERSION = "__version__";
-	public static final String VERSION = "0.1";
-	private static final String HTTP_COMM_PROTOCOL = "__http_comm_protocol__";
+//	public static final String VERSION = "0.1";
+//	private static final String HTTP_COMM_PROTOCOL = "__http_comm_protocol__";
 	public HttpRequest(HttpCommunicateImpl impl,lin.client.http.Package pack,ResultListener listener, HttpCommunicateResult result,CloseableHttpClient http){
 		this.impl = impl;
 		this.pack = pack;
@@ -80,9 +78,9 @@ public class HttpRequest {
 						//CloseableHttpClient http = HttpClientBuilder.create().build();
 //						http.setCookieStore(impl.getCookieStore());
 						post = new HttpPost(HttpUtils.uri(impl,pack));
-						post.addHeader(HTTP_COMM_PROTOCOL, VERSION);
+						//post.addHeader(Constants.HTTP_COMM_PROTOCOL, Constants.HTTP_VERSION);
 						//http.setCookieSpecs(new CookieSpecRegistry());
-						Map<String,String> postParams = pack.getRequestHandle().getParams(pack);
+						Map<String,String> postParams = pack.getRequestHandle().getParams(post,pack);
 						List<NameValuePair> params = new 
 								ArrayList<NameValuePair>();  
 		
@@ -108,11 +106,11 @@ public class HttpRequest {
 							buffer.append(new String(bs,0,count));
 						}
 						jsonParam = buffer.toString();
-						jsonParam = URLDecoder.decode(jsonParam, "utf-8");
-						//jsonParam = jsonParam;
-						//byte[] tmpBs = new BASE64Decoder().decodeBuffer(jsonParam);
-						byte[] tmpBs = Base64.getDecoder().decode(jsonParam);
-						jsonParam = new String(tmpBs,"utf-8");
+//						jsonParam = URLDecoder.decode(jsonParam, "utf-8");
+//						//jsonParam = jsonParam;
+//						//byte[] tmpBs = new BASE64Decoder().decodeBuffer(jsonParam);
+//						byte[] tmpBs = Base64.getDecoder().decode(jsonParam);
+//						jsonParam = new String(tmpBs,"utf-8");
 						//System.out.println("json:"+tmpJsonParams);
 						//jsonParam = new String(jsonParam.getBytes(),System.getProperty("sun.jnu.encoding"));
 						

@@ -2,6 +2,7 @@ package lin.client.http;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.apache.http.client.CookieStore;
@@ -43,7 +44,20 @@ this.name = name;
 		 * @param url
 		 */
 		public void setCommUrl(URI url){
-			baseUri = url;
+			String uriString = url.toString();
+			if(uriString.endsWith("/")){
+				try {
+					baseUri = new URI(uriString.substring(0, uriString.length() - 1));
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}else{
+				try {
+					baseUri = new URI(uriString);
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		public URI getCommUri(){

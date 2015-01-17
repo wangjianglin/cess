@@ -6,7 +6,7 @@ import java.util.Map;
 public class TestPackage extends lin.client.http.Package{
 
 	public TestPackage(){
-		this.setUri("/core/comm/test.action");
+		super("/core/comm/test.action");
 	}
 	
 	 @Override

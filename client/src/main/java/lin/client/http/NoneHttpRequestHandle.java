@@ -2,6 +2,8 @@ package lin.client.http;
 
 import java.util.Map;
 
+import org.apache.http.message.AbstractHttpMessage;
+
 /**
  * 
  * @author 王江林
@@ -11,7 +13,7 @@ import java.util.Map;
 public class NoneHttpRequestHandle implements HttpRequestHandle {
 
 	@Override
-	public Map<String, String> getParams(Package pack) {
+	public Map<String, String> getParams(AbstractHttpMessage httpMessage,Package pack) {
 		return null;
 	}
 

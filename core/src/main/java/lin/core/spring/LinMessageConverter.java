@@ -113,7 +113,7 @@ public class LinMessageConverter implements HttpMessageConverter<Object>{
 				}});
 			_out.write("}".getBytes());
 			String json = Base64.getEncoder().encodeToString(_out.toByteArray());
-	        json =  java.net.URLEncoder.encode(json, "ascii");
+	        //json =  java.net.URLEncoder.encode(json, "ascii");
 			outputMessage.getBody().write(json.getBytes());
 		}
 		

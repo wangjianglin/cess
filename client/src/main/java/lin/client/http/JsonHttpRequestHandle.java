@@ -1,5 +1,6 @@
 package lin.client.http;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,13 @@ import java.util.Map;
 
 
 
+
+
+
+
+import org.apache.http.message.AbstractHttpMessage;
+
+import lin.client.Constants;
 import lin.util.json.JSONException;
 import lin.util.json.JSONUtil;
 import lin.util.reflect.PropertyOperator;
@@ -78,7 +86,8 @@ public class JsonHttpRequestHandle implements HttpRequestHandle {
 		}
 	}
 	@Override
-	public Map<String, String> getParams(Package pack) {
+	public Map<String, String> getParams(AbstractHttpMessage httpMessage,Package pack) {
+		httpMessage.addHeader(Constants.HTTP_COMM_PROTOCOL, Constants.HTTP_VERSION);
 		StringBuilder sb = new StringBuilder();
         sb.append('{');
         sb.append("\"location\":");
@@ -136,9 +145,9 @@ public class JsonHttpRequestHandle implements HttpRequestHandle {
 //        map.put("__request_coding__", System.getProperty("file.encoding"));
 //        map.put("__version__", "0.1");
 //        map.put("__result__", "json");
-        map.put(HttpRequest.JSON_PARAM, json);
-        map.put(HttpRequest.REQUEST_CODING, System.getProperty("file.encoding"));
-        //map.put(HttpRequest.VERSION, "0.1");
+        map.put(Constants.HTTP_JSON_PARAM, json);
+        map.put(Constants.HTTP_REQUEST_CODING, System.getProperty("file.encoding"));
+        //map.put(Constants.HTTP_VERSION, "0.1");
         //map.put(HttpRequest.URI, pack.getUri());
 		return map;
 	}
@@ -146,6 +155,16 @@ public class JsonHttpRequestHandle implements HttpRequestHandle {
 	@Override
 	public void response(Package pack, String resp, ResultListener listener) {
 		//System.out.println("result:"+resp);
+//		jsonParam = URLDecoder.decode(jsonParam, "utf-8");
+		//jsonParam = jsonParam;
+		//byte[] tmpBs = new BASE64Decoder().decodeBuffer(jsonParam);
+		byte[] tmpBs = Base64.getDecoder().decode(resp);
+		try {
+			resp = new String(tmpBs,"utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
 		Object obj = null;
 		List<Error> warning = null;
 		Error error = null;

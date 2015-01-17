@@ -5,7 +5,7 @@ import java.util.Map;
 public class SessionIdPackage extends lin.client.http.Package{
 
 	public SessionIdPackage(){
-		this.setUri("/core/comm/sessionId.action");
+		super("/core/comm/sessionId.action");
 	}
 	
 	 @Override

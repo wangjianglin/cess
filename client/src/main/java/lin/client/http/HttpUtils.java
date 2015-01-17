@@ -53,10 +53,10 @@ class HttpUtils {
 //         {
              commUriString = commUri.toString();
 
-             if(pack.getUri().endsWith("/")){
-            	 commUriString += pack.getUri().substring(1);
-             }else{
+             if(pack.getUri().startsWith("/")){
             	 commUriString += pack.getUri();
+             }else{
+            	 commUriString += "/" + pack.getUri();
              }
              if (!pack.isEnableCache())
              {

@@ -22,7 +22,7 @@ public class Constants {
 	/**
 	 * json数据的参数名
 	 */
-	public static final String JSON_PARAM = "__jsonParam__";
+	public static final String HTTP_JSON_PARAM = "__json_param__";
 	/**
 	 * 响应数据的类型，默认为html，支持html、json、xml
 	 */
@@ -35,7 +35,7 @@ public class Constants {
 	/**
 	 * 客户端请求数据的编码参数方式
 	 */
-	public static final String REQUEST_CODING = "__request_coding__";
+	public static final String HTTP_REQUEST_CODING = "__request_coding__";
 	
 	/**
 	 * 客户端要求响应数据的编码方式，默认为utf-8
@@ -44,8 +44,8 @@ public class Constants {
 	
 	public static final String HTTP_COMM_PROTOCOL = "__http_comm_protocol__";
 	public static final String HTTP_COMM_PROTOCOL_VERSION = "/__http_comm_protocol__/__version__";
-	public static final String VERSION = "0.1";
+	public static final String HTTP_VERSION = "0.1";
 	
-	public static final String DEFAULT_LOCATION = "/WEB-INF/content/";
-	public static final String LOCATION_PARAM = "location";
+//	public static final String DEFAULT_LOCATION = "/WEB-INF/content/";
+//	public static final String LOCATION_PARAM = "location";
 }

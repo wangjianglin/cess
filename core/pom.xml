@@ -5,7 +5,8 @@
 
 	<properties>
 		<!-- <cxf.version>2.7.9</cxf.version> -->
-		<spring.version>4.0.6.RELEASE</spring.version>
+		<!-- <spring.version>4.0.6.RELEASE</spring.version> -->
+		<spring.version>4.1.4.RELEASE</spring.version>
 		<javax.ws.rs.version>2.0.1</javax.ws.rs.version>
 		<cxf.version>3.0.2</cxf.version>
 	</properties>
@@ -290,6 +291,15 @@ cxf-rt-databinding-xmlbeans/ -->
 		<!-- cxf 开始 -->
 
 		<!-- cxf 结束 -->
+		
+		<!-- spring log 开始 -->
+		<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.7.10</version>
+			</dependency>
+		<!-- spring log v -->
+			
 	</dependencies>
 	<parent>
 		<groupId>lin</groupId>

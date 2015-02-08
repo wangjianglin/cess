@@ -145,4 +145,15 @@
 	
 	
 	<!-- <import resource="classpath*:META-INF/lin/lin-cxf-bean.xml"/> -->
+	
+	
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="returnValueHandlers">
+			<list>
+			</list>
+		</property>
+	</bean> -->
+	<!-- <bean class="lin.core.spring.LinRequestMappingHandlerAdapter">
+	
+	</bean> -->
     </beans>

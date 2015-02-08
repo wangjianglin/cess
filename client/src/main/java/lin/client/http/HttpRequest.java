@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import lin.client.Constants;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -74,10 +76,10 @@ public class HttpRequest {
 					long errorCode = 0;
 					try {
 						//HTTP请求
-//						DefaultHttpClient http = new DefaultHttpClient();
-						//CloseableHttpClient http = HttpClientBuilder.create().build();
-//						http.setCookieStore(impl.getCookieStore());
 						post = new HttpPost(HttpUtils.uri(impl,pack));
+						if(impl.isDebue()){
+							post.addHeader(Constants.HTTP_COMM_PROTOCOL_DEBUG, "");
+						}
 						//post.addHeader(Constants.HTTP_COMM_PROTOCOL, Constants.HTTP_VERSION);
 						//http.setCookieSpecs(new CookieSpecRegistry());
 						Map<String,String> postParams = pack.getRequestHandle().getParams(post,pack);

@@ -1,18 +1,9 @@
 package lin.client.http;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
-
-
-
-
-
 
 import org.apache.http.message.AbstractHttpMessage;
 
@@ -158,11 +149,15 @@ public class JsonHttpRequestHandle implements HttpRequestHandle {
 //		jsonParam = URLDecoder.decode(jsonParam, "utf-8");
 		//jsonParam = jsonParam;
 		//byte[] tmpBs = new BASE64Decoder().decodeBuffer(jsonParam);
-		byte[] tmpBs = Base64.getDecoder().decode(resp);
 		try {
+			byte[] tmpBs = Base64.getDecoder().decode(resp);
 			resp = new String(tmpBs,"utf-8");
-		} catch (UnsupportedEncodingException e1) {
+		} catch (Throwable e1) {
 			e1.printStackTrace();
+			Error error = new Error();
+			error.setCode(-3);
+			HttpUtils.fireFault(listener::fault, error);
+			return;
 		}
 		
 		Object obj = null;

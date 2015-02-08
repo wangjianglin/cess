@@ -103,8 +103,10 @@ public class HttpCommunicateTest {
 	
 	@Test
 	public void testComm()throws IOException, URISyntaxException{
-		TestPackage pack = new TestPackage();
-		pack.setData("测试中文！");
+//		TestPackage pack = new TestPackage();
+		TestPackage2 pack = new TestPackage2();
+//		pack.setData("测试中文！");
+		pack.setData("test!");
 		//pack.setData("test");
 		HttpCommunicateImpl client = HttpCommunicate.get("clien");
 		//client.setCommUrl(new URI("http://localhost:8080/web/__http_comm_protocol__"));

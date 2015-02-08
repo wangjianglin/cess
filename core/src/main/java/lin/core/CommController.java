@@ -20,7 +20,7 @@ public class CommController{// implements Controller {
 	public String test(@RequestParam("data") String data){
 		return data;
 	}
-	
+
 	
 	@ResponseBody
 	@RequestMapping("/sessionId")

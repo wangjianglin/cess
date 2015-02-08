@@ -34,6 +34,8 @@ this.name = name;
 	public String getName(){
 		return name;
 	}
+	
+	private boolean debue = false;
 	/**
 	 * 通信 URL
 	 */
@@ -64,7 +66,15 @@ this.name = name;
 			return baseUri;
 		}
 		
-//		/**
+public boolean isDebue() {
+			return debue;
+		}
+
+		public void setDebue(boolean debue) {
+			this.debue = debue;
+		}
+
+		//		/**
 //		 * 代理对象
 //		 */
 //		private AuthenticationHandler authenticationHandler=null;

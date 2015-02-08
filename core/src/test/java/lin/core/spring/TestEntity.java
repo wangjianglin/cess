@@ -1,40 +1,20 @@
-package lin.demo.entity;
+package lin.core.spring;
 
-import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-@Entity(name="test_entity")
-public class TestEntity implements Serializable {
+public class TestEntity {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	@Id
 	private Long id;
 	
-	@Column(name="test_name")
 	private String name;
 	
-	@Column(name="test_value")
 	private String value;
 	
-	@Column(name="test_date")
-	@Temporal(value=TemporalType.TIMESTAMP)
 	private Date date;
-	
-	private TestEntity data;
 
-	public TestEntity(){
-		System.out.println("ok.");
-	}
+	private TestEntity data;
+	
 	public Long getId() {
 		return id;
 	}
@@ -66,9 +46,11 @@ public class TestEntity implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
 	public TestEntity getData() {
 		return data;
 	}
+
 	public void setData(TestEntity data) {
 		this.data = data;
 	}

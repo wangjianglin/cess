@@ -122,6 +122,13 @@ public class HttpCommunicate {
 		return global.getCommUri();
 	}
 
+	public static boolean isDebue() {
+		return global.isDebue();
+	}
+
+	public static void setDebue(boolean debue) {
+		global.setDebue(debue);
+	}
 	/**
 	 * 设置代理
 	 * 

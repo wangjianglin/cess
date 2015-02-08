@@ -57,8 +57,24 @@ expression="org.springframework.stereotype.Controller" />
 	<!-- <bean name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" class="lin.core.spring.HandlerAdapter"/>
 	 -->
 	<!-- org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter -->
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-        <property name="order" value="1"/>
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+	 -->
+	 
+	 <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	 <property name="converters">
+	 <list>
+	 	<bean class="lin.core.spring.DateConverter"></bean>
+	 </list>
+	 </property>
+	 </bean>
+<bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+<property name="conversionService" ref="conversionService"/>
+</bean>
+
+<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> -->
+	<bean class="lin.core.spring.LinRequestMappingHandlerAdapter">
+        <property name="order" value="-100"/>
+        <property name="webBindingInitializer" ref="webBindingInitializer"/>
         <property name="messageConverters">
             <list>
                 <ref bean="linMessageConverter" />
@@ -73,6 +89,8 @@ expression="org.springframework.stereotype.Controller" />
 			</list>
 		</property> -->
 	</bean>
+	
+	<bean id="exceptionResolver" class="lin.core.spring.LinExceptionHandler"/>
 	
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">

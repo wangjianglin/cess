@@ -17,8 +17,8 @@ public class HttpCommunicateResult {
     //HttpCommunicateResult(AutoResetEvent are, System.Action abort)
 //	ReentrantLock lock = new ReentrantLock();
 //	Condition condition = lock.newCondition();
-	HttpRequest request ;
-	HttpCommunicateResult()
+    Aboutable request ;
+	public HttpCommunicateResult()
     {
 		//this.lock = lock;
         //this.are = are;
@@ -27,50 +27,39 @@ public class HttpCommunicateResult {
 
     private Boolean _result = null;
 
-	public AutoResetEvent set;
+	private AutoResetEvent set = new AutoResetEvent(false);
+
+    AutoResetEvent getAutoResetEvent(){
+        return set;
+    }
 
     public void abort()
     {
     	request.abort();	
-//        if (abort != null)
-//        {
-//            abort();
-//        }
     }
 
-    public void waitForEnd()
+    long threadId = -1;
+    public HttpCommunicateResult waitForEnd()
     {
+    	threadId = Thread.currentThread().getId();
     	set.waitOne();
-//    	lock.lock();
-//    	if(this._result == null){
-//	    	try {
-//				condition.await();
-//			} catch (InterruptedException e) {
-//			}
-//	    }
-//    	lock.unlock();
+    	return this;
     }
-    void setResult(boolean result){
+    private  Object _obj;
+    public void setResult(boolean result,Object obj){
 //    	this.lock.lock();
     	this._result = result;
+    	this._obj = obj;
 //    	this.condition.signalAll();
 //    	this.lock.unlock();
     }
-    public boolean getResult()
+    public Object getResult(){
+    	this.waitForEnd();
+    	return _obj;
+    }
+    public boolean isSuccess()
     {
     	this.waitForEnd();
     	return this._result;
-//        get
-//        {
-//            if (are != null)
-//            {
-//                are.WaitOne();
-//            }
-//            return _result;
-//        }
-//        internal set
-//        {
-//            _result = value;
-//        }
     }
 }

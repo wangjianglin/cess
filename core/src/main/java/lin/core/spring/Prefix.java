@@ -17,5 +17,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Prefix {
 
-//	public String value();
+	public String value() default "";
 }

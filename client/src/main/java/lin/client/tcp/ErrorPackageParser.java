@@ -1,14 +1,16 @@
 package lin.client.tcp;
 
-@ProtocolParserType(type = 0)
-public class ErrorPackageParser implements ProtocolParser {
-	public Package getPackage() {
-		return new ErrorPackage();
-	}
+import lin.client.tcp.annotation.ProtocolParserType;
+import lin.util.JsonUtil;
 
-	public void put(byte... bs) {
-	}
+@ProtocolParserType(0)
+public class ErrorPackageParser extends AbstractProtocolParser {
+	public TcpPackage getPackage() {
 
-	public void clear() {
+		String s = new String(buffer,0,count);
+
+		ErrorPackage.Data data = JsonUtil.deserialize(s,ErrorPackage.Data.class);
+
+		return new ErrorPackage(data);
 	}
 }

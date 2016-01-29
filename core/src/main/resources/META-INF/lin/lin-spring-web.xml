@@ -40,7 +40,7 @@ expression="org.springframework.stereotype.Controller" />
 	<mvc:annotation-driven />
 	
 	
-	<mvc:resources mapping="/**" location="classpath:/WEB-INF/content/" />
+	<!-- <mvc:resources mapping="/**" location="classpath:/WEB-INF/content/" /> -->
 
 	<!-- <bean
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
@@ -72,12 +72,23 @@ expression="org.springframework.stereotype.Controller" />
 </bean>
 
 <!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> -->
-	<bean class="lin.core.spring.LinRequestMappingHandlerAdapter">
+	<bean class="lin.core.spring.LinMappingHandlerAdapter">
         <property name="order" value="-100"/>
         <property name="webBindingInitializer" ref="webBindingInitializer"/>
         <property name="messageConverters">
             <list>
                 <ref bean="linMessageConverter" />
+            </list>
+        </property>
+        
+        <property name="customArgumentResolvers">
+            <list>
+                <bean class="lin.core.spring.LinPrefixMethodProcessor" />
+            </list>
+        </property>
+        <property name="customFirstReturnValueHandlers">
+            <list>
+                <bean class="lin.core.spring.LinMessageBodyMethodProcessor" />
             </list>
         </property>
     </bean>

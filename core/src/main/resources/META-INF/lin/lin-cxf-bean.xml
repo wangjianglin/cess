@@ -14,6 +14,9 @@
 	</bean> -->	
 	
 	<bean id="webServicesAgent" class="lin.core.cxf.Jsr181HandlerMapping">
-		<property name="urlPrefix"><value>/</value></property>
+		<property name="urlPrefix"><value>/services/</value></property>
+	</bean>	 
+	<bean id="restAgent" class="lin.core.cxf.RestHandlerMapping">
+		<property name="urlPrefix"><value>/rest</value></property>
 	</bean>	 
 </beans>

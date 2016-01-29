@@ -29,6 +29,12 @@ import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
 import org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo;
 import org.springframework.util.ClassUtils;
 
+/**
+ * 
+ * @author lin
+ * @date Jul 5, 2015 7:24:29 PM
+ *
+ */
 public class LinEntityManagerFactoryBean extends
 		AbstractEntityManagerFactoryBean implements ResourceLoaderAware,
 		LoadTimeWeaverAware {

@@ -2,7 +2,6 @@ package lin.client.http;
 
 import java.util.Map;
 
-import org.apache.http.message.AbstractHttpMessage;
 
 /**
  * 
@@ -13,12 +12,12 @@ import org.apache.http.message.AbstractHttpMessage;
 public class NoneHttpRequestHandle implements HttpRequestHandle {
 
 	@Override
-	public Map<String, String> getParams(AbstractHttpMessage httpMessage,Package pack) {
+	public Map<String, Object> getParams(HttpPackage pack,HttpMessage httpMessage) {
 		return null;
 	}
 
 	@Override
-	public void response(Package pack, String resp, ResultListener listener) {
+	public void response(HttpPackage pack, byte[] bytes, ResultListener listener) {
 		
 	}
 

@@ -31,9 +31,7 @@ import javax.servlet.http.Part;
 
 import lin.LinException;
 import lin.core.Constants;
-import lin.util.json.JSONException;
-import lin.util.json.JSONToParameters;
-import lin.util.json.JSONUtil;
+import lin.util.JsonUtil;
 
 /**
  * 
@@ -153,7 +151,7 @@ public class CommFilter implements javax.servlet.Filter{
 			if(tmpJsonParams == null || "".equals(tmpJsonParams)){
 				throw new LinException(-2);
 			}
-			Object obj = JSONUtil.deserialize(tmpJsonParams);
+			Object obj = JsonUtil.deserialize(tmpJsonParams);
 			if(obj == null){
 				throw new LinException(-4);
 			}
@@ -196,8 +194,9 @@ public class CommFilter implements javax.servlet.Filter{
 //				}
 				
 				if(tmpParams != null && tmpParams.containsKey("data")){
-					params = new HashMap<String, String>();
-					JSONToParameters.processesParameters(tmpParams.get("data"),params,null);
+//					params = new HashMap<String, String>();
+//					JSONToParameters.processesParameters(tmpParams.get("data"),params,null);
+					params = JsonUtil.toParameters(tmpParams.get("data"));
 					for(Map.Entry<String, String> entry : params.entrySet()){
 						tmpMap.put(entry.getKey(), new String[]{entry.getValue()});
 					}
@@ -205,7 +204,7 @@ public class CommFilter implements javax.servlet.Filter{
 					tmpMap.put("__coding__", new String[]{coding});
 				}
 			}
-		}catch (JSONException e) {
+		}catch (Throwable e) {
 			System.out.println("json:"+tmpJsonParams);
 			e.printStackTrace();
 			throw new LinException(-5);

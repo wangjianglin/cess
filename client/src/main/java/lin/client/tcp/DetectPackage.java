@@ -1,20 +1,17 @@
 package lin.client.tcp;
 
-@Command(commaand = 0)
-public class DetectPackage extends CommandPackage {
-	// static DetectPackage()
-	// {
-	// PackageManager.RegisterPackage(1, (byte[] bs)=>{
-	// return new DetectPackage();
-	// });
-	// return;
-	// }
+import lin.client.tcp.annotation.Command;
+import lin.client.tcp.annotation.RespType;
+
+@Command(1)
+@RespType(DetectRespPackage.class)
+public class DetectPackage extends CommandRequestPackage {
+
 	@Override
-	public void parser(byte[] bs) {
-		// return new DetectPackage();
+	public void parse(byte[] bs,int offset) {
 	}
 
-	public DetectPackage()// :base(1)
+	public DetectPackage()
 	{
 	}
 

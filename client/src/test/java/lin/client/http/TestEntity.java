@@ -1,11 +1,13 @@
 package lin.client.http;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class TestEntity {
 
 	private Long id;
+	private List<Long> ids;
 	
 	private String name;
 	
@@ -14,13 +16,21 @@ public class TestEntity {
 	private Date date;
 
 	private TestEntity data;
-	
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public List<Long> getIds() {
+		return ids;
+	}
+
+	public void setIds(List<Long> ids) {
+		this.ids = ids;
 	}
 
 	public String getName() {
@@ -54,5 +64,4 @@ public class TestEntity {
 	public void setData(TestEntity data) {
 		this.data = data;
 	}
-	
 }

@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import lin.core.spring.MessageBody;
 
 @Controller
 @RequestMapping("/core/comm")
@@ -16,19 +17,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CommController{// implements Controller {
 
 	@RequestMapping("/test")
-	@ResponseBody
-	public String test(@RequestParam("data") String data){
+	@MessageBody
+	public String test(@RequestParam(value="data",required=false) String data){
+		System.out.println("data:"+data);
 		return data;
+	}
+	
+	@RequestMapping("/null")
+	@MessageBody
+	public void testNull(){
 	}
 
 	
-	@ResponseBody
+	@MessageBody
 	@RequestMapping("/sessionId")
 	public String sessionId(HttpServletRequest request,HttpServletResponse response){
+		System.out.println("session id:"+request.getSession().getId());
 		return request.getSession().getId();
-//		//javax.websocket.Session session = null;
-//		System.out.println("ok.");
-//		//return new ModelAndView("hello3","message","hello!");
-//		return new String[]{"one","two"};
 	}
 }

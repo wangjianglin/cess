@@ -26,10 +26,10 @@
 //version = '0.0.1-SNAPSHOT'
 //apply plugin: 'war'
 apply plugin: 'war'
-apply plugin: 'eclipse-wtp'
+//apply plugin: 'eclipse-wtp'
 //apply plugin: 'eclipse'
 //apply plugin: 'application'
-apply plugin: 'tomcat'
+//apply plugin: 'tomcat'
 apply plugin: 'jetty'
 
 //webAppDirName = 'webapp'
@@ -43,14 +43,14 @@ task sourcesWar(type: Jar, dependsOn: classes) {
 artifacts {
 	archives sourcesWar
 }
-
-uploadArchives {
-	repositories {
-		mavenDeployer {
-			pom.artifactId = 'lin-demo'
-		}
-	}
-}
+//
+//uploadArchives {
+//	repositories {
+//		mavenDeployer {
+//			pom.artifactId = 'lin-demo'
+//		}
+//	}
+//}
 
 repositories {
 	mavenCentral()
@@ -82,12 +82,12 @@ dependencies {
 	compile project(':web')
 	
 	//tomcat 插件的配置
-	 def tomcatVersion = '8.0.11'
-	 tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-			 "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
-	 tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
-		 exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
-	 }
+//	 def tomcatVersion = '8.0.11'
+//	 tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+//			 "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+//	 tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+//		 exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+//	 }
 	
 //	def tomcatVersion = '8.0.11'
 //	tomcat "org.apache.tomcat:tomcat-catalina:${tomcatVersion}",
@@ -117,6 +117,7 @@ httpPort = 8080
 stopPort  = 8091
 stopKey = "kelljetty"
 //GRADLE_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=9999,server=y,suspend=n"
+
 jettyRun{
 	//jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
 	contextPath = ''
@@ -134,26 +135,33 @@ buildscript {
  
 	dependencies {
 		//classpath 'com.bmuschko:gradle-tomcat-plugin:2.0'
-		classpath 'bmuschko:gradle-tomcat-plugin:0.9.5'
+		//classpath 'bmuschko:gradle-tomcat-plugin:0.9.5'
 	}
 }
 
-tomcat {
-	httpPort = 8090
-	httpsPort = 8091
-	enableSSL = true
+dependencies{
+	compile "mysql:mysql-connector-java:5.1.33"
 
-	users {
-		user {
-			username = 'user1'
-			password = '123456'
-			roles = ['developers', 'admin']
-		}
-
-		user {
-			username = 'user2'
-			password = 'abcdef'
-			roles = ['manager']
-		}
-	}
+	compile project(':core')
+	compile project(':web')
 }
+
+//tomcat {
+//	httpPort = 8090
+//	httpsPort = 8091
+//	enableSSL = true
+//
+//	users {
+//		user {
+//			username = 'user1'
+//			password = '123456'
+//			roles = ['developers', 'admin']
+//		}
+//
+//		user {
+//			username = 'user2'
+//			password = 'abcdef'
+//			roles = ['manager']
+//		}
+//	}
+//}

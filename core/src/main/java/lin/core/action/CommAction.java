@@ -1,7 +1,7 @@
 //package lin.core.action;
 //
 //
-//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http1.HttpServletRequest;
 //
 //import org.apache.struts2.StrutsStatics;
 //import org.apache.struts2.convention.annotation.Result;

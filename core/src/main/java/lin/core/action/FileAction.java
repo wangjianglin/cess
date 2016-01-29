@@ -4,8 +4,8 @@
 //import java.io.File;
 //import java.io.InputStream;
 //
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http1.HttpServletRequest;
+//import javax.servlet.http1.HttpServletResponse;
 //
 //import lin.core.entity.FileMap;
 //
@@ -149,8 +149,8 @@
 //		}
 //		HttpServletResponse response = (HttpServletResponse)ActionContext.getContext().getActionInvocation().getInvocationContext().get(StrutsStatics.HTTP_RESPONSE);
 //		
-//		//response.setStatus(javax.servlet.http.HttpServletResponse.SC_PARTIAL_CONTENT);// 206
-//		status = javax.servlet.http.HttpServletResponse.SC_PARTIAL_CONTENT;
+//		//response.setStatus(javax.servlet.http1.HttpServletResponse.SC_PARTIAL_CONTENT);// 206
+//		status = javax.servlet.http1.HttpServletResponse.SC_PARTIAL_CONTENT;
 //		
 //		if(!fileDownload.hasFile(key)){
 //			file = fileService.download(key);

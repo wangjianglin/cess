@@ -1,190 +1,74 @@
 package lin.client.http;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
 
-import org.apache.http.client.CookieStore;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-
-import lin.util.Action;
-import lin.util.thread.AutoResetEvent;
+import java.net.URL;
+import java.util.Map;
 
 /**
- * 
- * @author 王江林
- * @date 2013-7-29 下午9:13:22
- *
+ * Created by lin on 1/9/16.
  */
-public class HttpCommunicateImpl{// implements HttpCommunicate{
+public interface HttpCommunicateImpl{
+//    void init(Context context);
 
-	private String name;
+    int getTimeout();
 
-	//HttpCommunicateImpl(){}
-	HttpCommunicateImpl(String name,HttpCommunicate c) {
-		if(c == null){
-			throw new RuntimeException();
-		}
-this.name = name;
-	}
-	
-	public String getName(){
-		return name;
-	}
-	
-	private boolean debue = false;
-	/**
-	 * 通信 URL
-	 */
-		private URI baseUri = null;
-		
-		/**
-		 * 设置通信 URL
-		 * @param url
-		 */
-		public void setCommUrl(URI url){
-			String uriString = url.toString();
-			if(uriString.endsWith("/")){
-				try {
-					baseUri = new URI(uriString.substring(0, uriString.length() - 1));
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}
-			}else{
-				try {
-					baseUri = new URI(uriString);
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		public URI getCommUri(){
-			return baseUri;
-		}
-		
-public boolean isDebue() {
-			return debue;
-		}
+    void setTimeout(int timeout);
 
-		public void setDebue(boolean debue) {
-			this.debue = debue;
-		}
+    void addHeader(String name, String value);
 
-		//		/**
-//		 * 代理对象
-//		 */
-//		private AuthenticationHandler authenticationHandler=null;
-//		/**
-//		 * 设置代理
-//		 * @param proxy
-//		 */
-//		public void setAuthenticationHandler(AuthenticationHandler proxy){
-//			authenticationHandler = proxy;
-//		}
-//		
-//		private CredentialsProvider credentialsProvider;
-//		
-		/**
-		 * 
-		 * @param credsProvider
-		 */
-//		public void setCredentialsProvider(CredentialsProvider credsProvider){
-//			credentialsProvider = credsProvider;
-//		}
+    void removeHeader(String name);
 
-	public void addHttpRequestListener(HttpRequestListener listener){
-			
-		}
-	public void removeHttpRequestListener(HttpRequestListener listener){
-		
-	}
+    String getName();
 
-	private CookieStore cookieStore = new BasicCookieStore();
-	 CookieStore getCookieStore(){
-		return cookieStore;
-	}
+    void setCommUrl(URL url);
 
-	 public void newSession(){
-		 cookieStore = new BasicCookieStore();
-	 }
+    URL getCommUrl();
 
-	public HttpCommunicateResult request(lin.client.http.Package pack,ResultListener listener){
-		if(listener != null){
-			return request(pack,listener::result,listener::fault);
-		}
-		return request(pack,null,null);
-	}
-	
-	public HttpCommunicateResult request(lin.client.http.Package pack,ResultFunction result){
-		return request(pack,result,null);
-	}
-	
-	private CloseableHttpClient http = HttpClients.createDefault();
-	
-	public HttpCommunicateResult request(lin.client.http.Package pack,final ResultFunction result,final FaultFunction fault){
-		final HttpCommunicateResult httpHesult = new HttpCommunicateResult();
-		final AutoResetEvent set = new AutoResetEvent(false);
-		HttpRequest request = new HttpRequest(this,pack, new ResultListener() {
-			
-			@Override
-				public void result(final Object obj, final List<Error> warning) {
-					lin.util.thread.ActionExecute.execute(new Action() {
-						@Override
-						public void action() {
-							httpHesult.setResult(true);
-							HttpUtils.fireResult(result, obj, warning);
-						}
-					}, new Action() {
+    boolean isDebug();
 
-						@Override
-						public void action() {
+    void setDebug(boolean debug);
 
-							set.set();
-						}
-					});
-				}
-			
-			@Override
-			public void progress(long count, long total) {
-				//HttpUtils.fireProgress(ProgressFunction,count,total);
-			}
-			
-			@Override
-			public void fault(final Error error) {
-				lin.util.thread.ActionExecute.execute(new Action() {
-					@Override
-					public void action() {
-						httpHesult.setResult(false);
-						HttpUtils.fireFault(fault,error);
-					}
-				}, new Action() {
+    void addHttpRequestListener(HttpRequestListener listener);
 
-					@Override
-					public void action() {
-						set.set();
-					}
-				});
-			}
-		},httpHesult,http);
-		httpHesult.request = request;
-		httpHesult.set = set;
-		request.request();
-		return httpHesult;
-	}
+    void removeHttpRequestListener(HttpRequestListener listener);
 
-	public HttpCommunicateResult upload(File file,ResultListener listener){
-		return null;
-	}
+    HttpCommunicateResult request(HttpPackage pack, ResultListener listener);
 
-	public HttpCommunicateResult download(String file, ResultListener listener){
-		return null;
-	}
+    //	public HttpCommunicateResult request(lin.client.http.TcpPackage pack,final ResultFunction result,final FaultFunction fault){
+    HttpCommunicateResult request(HttpPackage pack, ResultListener listener, HttpCommunicate.Params params);
 
-	public HttpCommunicateResult download(URI file, ResultListener listener){
-		return null;
-	}
-	}
+    HttpCommunicateResult request(lin.client.http.HttpPackage pack,final ResultFunction result);
+
+
+    HttpCommunicateResult request(lin.client.http.HttpPackage pack,final ResultFunction result,final FaultFunction fault);
+
+    HttpCommunicateResult request(lin.client.http.HttpPackage pack,final ResultFunction result,final FaultFunction fault, HttpCommunicate.Params params);
+
+    HttpCommunicateResult download(String file, ResultListener listener);
+
+    HttpCommunicateResult download(String file, ResultListener listener, HttpCommunicate.Params params);
+
+    HttpCommunicateResult download(URL file, ResultListener listener);
+
+    HttpCommunicateResult download(URL file, ResultListener listener, HttpCommunicate.Params params);
+
+    HttpCommunicateResult download(URL file, ResultFunction result,FaultFunction fault,ProgressFunction progress, HttpCommunicate.Params params);
+
+    HttpCommunicateResult download(URL file, ResultFunction result,FaultFunction fault,ProgressFunction progress);
+
+    HttpCommunicateResult download(String file, ResultFunction result,FaultFunction fault,ProgressFunction progress, HttpCommunicate.Params params);
+
+    HttpCommunicateResult download(String file, ResultFunction result,FaultFunction fault,ProgressFunction progress);
+
+
+
+//    boolean isMainThread();
+
+//    void setMainThread(boolean mainThread);
+
+    void newSession();
+
+    Map<String,String> defaultHeaders();
+
+//    void setType(HttpCommunicateType type);
+}

@@ -2,9 +2,17 @@ web socket
 
 spring schemas
 
-从jar包中读取JSP文件
-
-采用注解驱动CXF Rest服务，参考 lin.core.cxf.Jsr181HandlerMapping
+采用注解驱动CXF Rest服务，参考 lin.core.cxf.Jsr181HandlerMapping   已完成
 
 
-spring数据类型转换，日期类型，prex.,传对象
+spring数据类型转换，日期类型，prex.,传对象，List参数，Map参数   已完成  Map没必要
+
+支持struts   没必要
+
+
+加入安全验证
+
+把lin.core.spring.LinRequestMappingHandlerAdapter 替换成RequestMappingHandlerAdapter
+
+
+日期带时区信息

@@ -1,4 +1,4 @@
-﻿package lin.util;
+package lin.util;
 
 /**
  * 

@@ -3,7 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>lin</groupId>
 	<artifactId>lin</artifactId>
-	<version>${lin.verison}</version>
+	<version>0.0.1-SNAPSHOT</version>
+	<!-- <version>${lin.verison}</version> -->
 	<packaging>pom</packaging>
 	<name>lin</name>
 	<url>https://github.com/wangjianglin/lin</url>

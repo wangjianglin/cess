@@ -1,91 +1,181 @@
 package lin.client.tcp;
 
-import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
-import lin.util.json.JSONException;
-import lin.util.json.JSONUtil;
+public interface JsonPackage extends TcpPackage
+{
 
-    public abstract class JsonPackage extends Package
-    {
+    String getPath();
 
-        private String path = "/json/test/";
-        public JsonPackage()
-        {
-            //this._path = this.GetType().GetCustomAttribute<JsonPath>().Path;
-        }
-        
-        public void parser(String json)
-        {
 
-//            MethodInfo[] ms = typeof(Lin.Util.Json.JsonUtil).GetMethods();
-//            //Console.WriteLine("ms:" + ms);
-//            MethodInfo deserializeMethod = null;
-//            foreach(MethodInfo m in ms){
-//                if (m.Name == "Deserialize" && m.IsGenericMethod && m.ReturnParameter.ParameterType.IsGenericParameter && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(string))
-//                {
-//                    deserializeMethod = m;
-//                    break;
+    void setHeader(String header,String value);
+
+    void removeHeader(String header);
+
+    Map<String,String> getHeaders();
+
+    void setValue(String name,Object value);
+
+    Object getValue(String name);
+
+    void removeValue(String name);
+
+    Map<String,Object> getValues();
+}
+
+//public class JsonPackage extends TcpPackage
+//{
+//
+//    private String path = "/";
+//    private Map<String,String> headers = new HashMap<>();
+//    private Map<String,Object> values = new HashMap<>();
+//
+//    public JsonPackage()
+//    {
+//        init();
+//    }
+//
+//    private void init(){
+//        Class<?> cls = this.getClass();
+//        Path pathAnnon = cls.getAnnotation(Path.class);
+//        if(pathAnnon != null){
+//            path = pathAnnon.path();
+//        }
+//
+//        Field[] fs = cls.getDeclaredFields();
+//        Param param = null;
+//        String paramName = null;
+//        for(Field f : fs){
+//            param = f.getAnnotation(Param.class);
+//            if(param != null){
+//                paramName = param.value();
+//                if(paramName == null || "".equals(paramName.trim())){
+//                    paramName = f.getName();
 //                }
+//                f.setAccessible(true);
+//                values.put(paramName,f);
 //            }
+//        }
+//    }
 //
-//            PropertyInfo pi = this.GetType().GetProperty("Params", BindingFlags.NonPublic | BindingFlags.Instance);
-//            JsonParamsType jsonType = pi.GetCustomAttribute<JsonParamsType>();
-//            deserializeMethod = deserializeMethod.MakeGenericMethod(jsonType.Type);
-//            object[] args = new object[] { json };
-//            object obj = deserializeMethod.Invoke(null, args);
+//    void setValues(Object obj){
+//        if(obj instanceof Map){
+//            values.putAll((Map<String,Object>)obj);
+//        }
+//    }
 //
-//            this.Params = obj;
-        }
-        
-        @Override
-        public final byte getType()
-        { return 6; 
-        }
-
-        public String getPath() { return path; } 
-
-        @Override
-        public final byte[] write()
-        {
-            String json = null;
-			try {
-				json = JSONUtil.serialize(this.getParams());
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-            //return json.GetType()
-            StringBuilder builder = new StringBuilder();
-
-            //path
-            builder.append("path:");
-            builder.append(this.getPath());
-            builder.append("\r\n");
-            //coding
-            builder.append("coding:");
-            //builder.append(Encoding.Default.BodyName);
-            builder.append("\r\n");
-            //sequeue id
-            //builder.Append("sequeue id:");
-            //builder.Append("0");
-            //builder.Append("\r\n");
-
-            //version
-            builder.append("version:0.1.0build0");
-            builder.append("\r\n");
-
-            //end
-            builder.append("\r\n");
-            builder.append(json);
-
-            //return Encoding.Default.GetBytes(builder.ToString());
-            try {
-				return builder.toString().getBytes("utf-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-            return new byte[0];
-        }
-
-        protected abstract Object getParams();
-        //public abstract void test();
-    }
+//    void setHeaders(Map<String,String> headers){
+//        this.headers.putAll(headers);
+//    }
+//
+//    @Override
+//    public final byte getType()
+//    { return 6;
+//    }
+//
+//    public String getPath() { return path; }
+//
+//    @Override
+//    public final byte[] write()
+//    {
+//
+//        StringBuilder builder = new StringBuilder();
+//
+//        //path
+//        builder.append("path:");
+//        builder.append(this.getPath());
+//        builder.append("\r\n");
+//        //coding
+//        builder.append("encoding:");
+//        //builder.append(Encoding.Default.BodyName);
+//        builder.append("\r\n");
+//
+////        builder.append("version:0.1.0build0");
+////        builder.append("\r\n");
+//
+//        for(Map.Entry<String,String> item:headers.entrySet()){
+//            builder.append(item.getKey());
+//            builder.append(':');
+//            if(item.getValue() != null){
+//                builder.append(item.getValue());
+//            }
+//            builder.append("\r\n");
+//        }
+//
+//        builder.append("\r\n");
+//
+//
+//        String json = JsonUtil.serialize(getValues());
+//        builder.append(json);
+//
+//
+//        try {
+//            return builder.toString().getBytes("utf-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+//
+//
+//    public void setHeader(String header,String value){
+//        headers.put(header,value);
+//    }
+//
+//    public void removeHeader(String header){
+//        headers.remove(header);
+//    }
+//
+//    public Map<String,String> getHeaders(){
+//        return Collections.unmodifiableMap(headers);
+//    }
+//
+//    public void setValue(String name,Object value){
+//        Object v = values.get(name);
+//        if(v instanceof Field){
+//            try {
+//                ((Field)v).set(this,value);
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        }else {
+//            values.put(name, value);
+//        }
+//    }
+//
+//    public Object getValue(String name){
+//        Object v = values.get(name);
+//        if(v instanceof Field){
+//            try {
+//                return ((Field)v).get(this);
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        return v;
+//
+//    }
+//
+//    public void removeValue(String name){
+//        values.remove(name);
+//    }
+//
+//    public Map<String,Object> getValues(){
+//        //return Collections.unmodifiableMap(values);
+//        Map<String,Object> maps = new HashMap<>();
+//
+//        for(Map.Entry<String,Object> item : values.entrySet()){
+//            if(item.getValue() instanceof Field){
+//                try {
+//                    maps.put(item.getKey(),((Field)item.getValue()).get(this));
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                }
+//            }else{
+//                maps.put(item.getKey(),item.getValue());
+//            }
+//        }
+//        return maps;
+//    }
+//}

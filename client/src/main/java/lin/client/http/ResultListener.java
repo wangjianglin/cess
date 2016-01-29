@@ -11,5 +11,6 @@ import java.util.List;
 public interface ResultListener {
 	 public void result(Object obj, List<Error> warning);
 	 public void fault(Error error);
-	 public void progress(long count,long total);
 }
+
+

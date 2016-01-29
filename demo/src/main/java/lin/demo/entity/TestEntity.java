@@ -2,14 +2,14 @@ package lin.demo.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity(name="test_entity")
+//@Entity(name="test_entity")
 public class TestEntity implements Serializable {
 
 	/**
@@ -19,6 +19,8 @@ public class TestEntity implements Serializable {
 
 	@Id
 	private Long id;
+	
+	private List<Long> ids;
 	
 	@Column(name="test_name")
 	private String name;
@@ -33,12 +35,17 @@ public class TestEntity implements Serializable {
 	private TestEntity data;
 
 	public TestEntity(){
-		System.out.println("ok.");
 	}
 	public Long getId() {
 		return id;
 	}
 
+	public List<Long> getIds() {
+		return ids;
+	}
+	public void setIds(List<Long> ids) {
+		this.ids = ids;
+	}
 	public void setId(Long id) {
 		this.id = id;
 	}

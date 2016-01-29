@@ -1,23 +1,27 @@
 package lin.util.json;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import lin.util.beans.BeanInfo;
+import lin.util.beans.Introspector;
+import lin.util.beans.PropertyDescriptor;
 
 
 /**
@@ -28,9 +32,10 @@ import java.util.regex.Pattern;
  * 用于序列化与反序列化对象，能够把Java对象序列化成JSON格式的字符串，也可以把JSON格式的字符串转换成Java对象
  *
  */
+@Deprecated
 public class JSONUtil {
 	//日期类型数据序列化格式
-	final static String RFC3339_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	final static String RFC3339_FORMAT = "yyyy-MM-dd HH:mm:ss.S";
 //    private static final Logger LOG = LoggerFactory.getLogger(JSONUtil.class);
 
     /**
@@ -153,7 +158,7 @@ public static Object deserialize(Object obj,Type type) throws JSONException{
 }
 	private static Object deserializeImpl(Object jsonObj,Type type) throws JSONException{
     	if(type instanceof Class<?>){
-    		return deserializeClassImpl(jsonObj,(Class<?>)type);
+    		return deserializeClassImpl(jsonObj,(Class<?>)type,null,null);
     	}else if(type instanceof ParameterizedType){
     		return deserializeParameterizedTypeImpl(jsonObj,(ParameterizedType)type);
     	}
@@ -166,7 +171,8 @@ public static Object deserialize(Object obj,Type type) throws JSONException{
 			return null;
 		}
 		Class<?> dataType = jsonObj.getClass();
-		if(List.class.isAssignableFrom((Class<?>)type.getRawType())
+		Class<?> rawType = (Class<?>) type.getRawType();
+		if(List.class.isAssignableFrom(rawType)
 				&& List.class.isAssignableFrom(dataType)){
 			@SuppressWarnings("rawtypes")
 			List list = (List)jsonObj;
@@ -181,7 +187,7 @@ public static Object deserialize(Object obj,Type type) throws JSONException{
 			}
 			return listlValue;
 		}
-		if(Map.class.isAssignableFrom((Class<?>)type.getRawType())
+		if(Map.class.isAssignableFrom(rawType)
 				&& Map.class.isAssignableFrom(dataType)){
 			@SuppressWarnings("rawtypes")
 			Map<String,Object> map = (Map)jsonObj;
@@ -194,12 +200,23 @@ public static Object deserialize(Object obj,Type type) throws JSONException{
 			}
 			return mapValue;
 		}
-		return null;
+		return deserializeClassImpl(jsonObj,rawType,type,type.getActualTypeArguments());
 	}
-    	@SuppressWarnings({ "unchecked", "rawtypes" })
-		private static Object deserializeClassImpl(Object jsonObj,Class<?> type) throws JSONException{
+	
+	
+	private static java.text.Format dateFormat = new java.text.SimpleDateFormat(RFC3339_FORMAT);
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static Object deserializeClassImpl(Object jsonObj,Class<?> type,ParameterizedType ptype,Type[] actualTypeArguments) throws JSONException{
     	
     	if(jsonObj == null){
+    		return null;
+    	}
+    	if(type == Date.class){
+    		
+    		try {
+				return dateFormat.parseObject(jsonObj.toString());
+			} catch (ParseException e) {
+			}
     		return null;
     	}
     	if(type == String.class){
@@ -280,7 +297,7 @@ public static Object deserialize(Object obj,Type type) throws JSONException{
     	
     	if(Map.class.isAssignableFrom(type)){
     		if(Map.class.isAssignableFrom(dataType)){
-    			@SuppressWarnings("rawtypes")
+//    			@SuppressWarnings("rawtypes")
 				Map map = (Map)jsonObj;
     			//@SuppressWarnings("rawtypes")
     			//Map mapValue = new HashMap();
@@ -305,31 +322,83 @@ public static Object deserialize(Object obj,Type type) throws JSONException{
 			}
 			
 			Type valueType = null;
-			@SuppressWarnings("unchecked")
+//			@SuppressWarnings("unchecked")
 			Map<String,Object> map = (Map<String,Object>)jsonObj;
     		//for(Map.Entry<String, Object> entry : map.entrySet()){
-    			try {
-					java.beans.BeanInfo infos = Introspector.getBeanInfo(type);
-					for(PropertyDescriptor pd : infos.getPropertyDescriptors()){
+    			
+				BeanInfo infos = Introspector.getBeanInfo(type);
+				for(PropertyDescriptor pd : infos.getPropertyDescriptors()){
 						//pd.setValue(pd.getName(), deserializeImpl(map.get(pd.getName()),pd.getPropertyType()));
+					try {
 						if(pd.getWriteMethod() != null){
-							//Type ttype = pd.getPropertyType();pd.getWriteMethod().getGenericParameterTypes()
-							//System.out.println("type:"+ttype);
+
 							valueType = pd.getWriteMethod().getGenericParameterTypes()[0];
-							pd.getWriteMethod().invoke(value, deserializeImpl(map.get(pd.getName()),valueType));
+							if(valueType instanceof ParameterizedType){
+								TypeVariable<?>[] typeVars = type.getTypeParameters();
+								Type[] valueTypes = ((ParameterizedType) valueType).getActualTypeArguments();
+								Type[] valueActualTypes = null;
+								if(valueTypes != null && valueTypes.length > 0){
+									valueActualTypes = new Type[valueTypes.length];
+									for(int n=0;n<valueTypes.length;n++){
+										Type var = valueTypes[n];
+										if(var instanceof TypeVariable){
+											TypeVariable tvar = (TypeVariable) var;
+											for(int m=0; m<typeVars.length;m++){
+												if(tvar.getName().equals(typeVars[m].getName())){
+													valueActualTypes[n] = actualTypeArguments[m];
+													break;
+												}
+											}
+										}else{
+											valueActualTypes[n] = var;
+										}
+									}
+								}
+
+								ParameterizedType valueParameterizedType = new ValueParameterizedType(((ParameterizedType) valueType).getRawType(),((ParameterizedType) valueType).getOwnerType()
+										,valueActualTypes);
+				    			pd.getWriteMethod().invoke(value, deserializeImpl(map.get(pd.getName()),valueParameterizedType));
+							}else{
+								pd.getWriteMethod().invoke(value, deserializeImpl(map.get(pd.getName()),valueType));
+							}
 						}
+					} catch (Throwable e) {
+//							e.printStackTrace();
 					}
-				} catch (IntrospectionException e) {
-				} catch (IllegalAccessException e) {
-				} catch (IllegalArgumentException e) {
-				} catch (InvocationTargetException e) {
 				}
+				
     		//}
     			return value;
     	}
     	
     	return null;
     }
+    	
+    private static class ValueParameterizedType implements ParameterizedType{
+
+    	private Type rawType;
+    	private Type ownerType;
+    	private Type[] actualType;
+    	private ValueParameterizedType(Type rawType,Type ownerType,Type[] actualType){
+    		this.rawType = rawType;
+    		this.ownerType = ownerType;
+    		this.actualType = actualType;
+    	}
+		@Override
+		public Type[] getActualTypeArguments() {
+			return this.actualType;
+		}
+
+		@Override
+		public Type getOwnerType() {
+			return ownerType;
+		}
+
+		@Override
+		public Type getRawType() {
+			return this.rawType;
+		}
+	};
     public static Object deserialize(Reader reader,Class<?> type) throws JSONException{
     
     	return deserializeImpl(deserialize(reader),type);
@@ -562,4 +631,105 @@ public static Object deserialize(Object obj,Type type) throws JSONException{
         return okayToContinue;
     }
 
+    
+    
+    //--------------------------------------------------------------------------------------
+	public static Map<String,String> toParameters(String json){
+		Map<String,String> result = new HashMap<String, String>();
+		try {
+			Object obj = JSONUtil.deserialize(json);
+			if(obj == null){
+				//throw new LinException(0xA00103,"客户端向服务器传输的数据为空！");
+			}
+			if(obj instanceof Map){
+				@SuppressWarnings("unchecked")
+				Map<String,String> tmp = (Map<String,String>)obj;
+//				validateData(tmp);
+				//processesParameters(tmp.get("data"),result,null);
+				processesParameters(tmp,result,null);
+				//ActionContext.getContext().put(sequeueid, tmp.get(sequeueid));
+			}
+		} catch (JSONException e) {
+//			System.out.println("json:"+json);
+			e.printStackTrace();
+			//throw new LinException(0xA00101,"数据格式异常！");
+		}
+		return result;
+	}
+	
+	public static Map<String,String> toParameters(Object obj){
+		Map<String,String> map = new HashMap<String,String>();
+		processesParameters(obj,map,null);
+		return map;
+	}
+	private static Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+	
+	private static void processesParameters(Object obj,Map<String,String> map,String pre){
+		if(obj == null){
+			return;
+		}
+		Class<?> type = obj.getClass();
+
+		if(Date.class.isAssignableFrom(type)){
+			
+			map.put(pre,format.format(obj));
+			return;
+		}
+
+		if(type.isPrimitive() || Number.class.isAssignableFrom(type) || String.class.isAssignableFrom(type)){
+			map.put(pre, obj+"");
+			return;
+		}
+		//如果是一个对象
+		if(obj instanceof Map){
+			@SuppressWarnings("unchecked")
+			Map<String,Object> tmpMap = (Map<String, Object>) obj;
+			if(pre == null){
+				for(String key : tmpMap.keySet()){
+					processesParameters(tmpMap.get(key),map,key);
+				}
+			}else{
+				for(String key : tmpMap.keySet()){
+					processesParameters(tmpMap.get(key),map,pre == null ? key : pre+"."+key);
+				}
+			}
+		}
+		//如果是一个数组
+		else if(obj instanceof List){
+			if(pre == null){
+				//抛出异常
+//				for(Object key : (List<Object>)obj){
+//					processesParameters(obj,map,key);
+//				}
+			}else{
+				@SuppressWarnings("rawtypes")
+				List tmpList = (List) obj;
+				int n = 0;
+				for(Object tmp : tmpList){
+					processesParameters(tmp,map,pre == null ? "["+n+"]" : pre+"["+n+"]");
+					n++;
+				}
+			}
+		}else{
+			
+			BeanInfo infos = Introspector.getBeanInfo(type);
+			
+			for(PropertyDescriptor pd : infos.getPropertyDescriptors()){
+					//pd.setValue(pd.getName(), deserializeImpl(map.get(pd.getName()),pd.getPropertyType()));
+				if(pd.getReadMethod() == null){
+					continue;
+				}
+				try {
+//					map.putAll(pre+"."+pd.getName(), pd.getReadMethod().invoke(obj));
+					processesParameters(pd.getReadMethod().invoke(obj),map,pre == null ? pd.getName() : pre+"."+pd.getName());
+				
+//					if(pd.getWriteMethod() != null){
+
+				} catch (Throwable e) {
+//						e.printStackTrace();
+				}
+			}
+		}
+	}
+	//---------------------------------------------------------------------------------------------------------------
 }

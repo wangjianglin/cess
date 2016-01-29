@@ -20,9 +20,18 @@ import org.springframework.web.servlet.mvc.Controller;
 public class Jsr181HandlerMapping extends AbstractUrlHandlerMapping
   implements BeanPostProcessor
 {
-  private String urlPrefix = "/services/";
+	  private String urlPrefix = "/";
 
   public void setUrlPrefix(String urlPrefix) {
+	  if(urlPrefix == null || "".equals(urlPrefix)){
+		  urlPrefix = "/";
+	  }
+	  if(!urlPrefix.startsWith("/")){
+		  urlPrefix = "/" + urlPrefix;
+	  }
+	  if(!urlPrefix.endsWith("/")){
+		  urlPrefix = urlPrefix + "/";
+	  }
     this.urlPrefix = urlPrefix;
   }
 
@@ -38,8 +47,11 @@ public class Jsr181HandlerMapping extends AbstractUrlHandlerMapping
     if (clazz.isAnnotationPresent(WebService.class)) {
       WebService ws = (WebService)clazz.getAnnotation(WebService.class);
       createAndPublishEndpoint(this.urlPrefix + ws.serviceName(), bean);
-      registerHandler(this.urlPrefix + ws.name(), new ServletAdapter(new CXFServlet()));
-    }
+      
+      //如果urlPrefix 为 / 时不会出错，其他的会出错
+//      registerHandler(this.urlPrefix + ws.name(), new ServletAdapter(new CXFServlet()));
+      registerHandler(this.urlPrefix + ws.serviceName(), new ServletAdapter(new CXFServlet()));
+      }
     else if (this.logger.isDebugEnabled()) {
       this.logger.debug("Rejected bean '" + beanName + "' since it has no WebService annotation");
     }

@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
+import javax.ws.rs.Path;
+
+import org.springframework.stereotype.Component;
 
 //@WebService
-@Named("helloworld")
+//@Named("helloworld")
+@Component
+@Path("/heloworld")
 // (endpointInterface="com.demo.HelloWorld",serviceName="HelloWorld")
 public class HelloWorldImpl implements HelloWorld {
 	public String say(String name) {

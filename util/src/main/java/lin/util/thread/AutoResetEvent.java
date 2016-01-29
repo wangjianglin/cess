@@ -15,7 +15,14 @@ public class AutoResetEvent {
 	private Condition condition = lock.newCondition();
 	private volatile boolean isSet = false;
 	/**
-	 * 
+	 *
+	 * @param type true,变量所在线程
+	 */
+	public AutoResetEvent(){
+	}
+
+	/**
+	 *
 	 * @param type true,变量所在线程
 	 */
 	public AutoResetEvent(boolean isSet){

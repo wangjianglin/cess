@@ -2,8 +2,6 @@ package lin.client.http;
 
 import java.util.Map;
 
-import org.apache.http.message.AbstractHttpMessage;
-
 /**
  * 
  * @author 王江林
@@ -12,7 +10,7 @@ import org.apache.http.message.AbstractHttpMessage;
  */
 public interface HttpRequestHandle {
 	
-	Map<String,String> getParams(AbstractHttpMessage httpMessage,lin.client.http.Package pack);
+	Map<String,Object> getParams(HttpPackage pack,HttpMessage httpMessage);
 
-    void response(lin.client.http.Package pack, String resp, ResultListener listener);
+    void response(HttpPackage pack, byte[] bytes, ResultListener listener);
 }

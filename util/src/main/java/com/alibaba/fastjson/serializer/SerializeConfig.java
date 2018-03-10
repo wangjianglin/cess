@@ -209,11 +209,11 @@ public class SerializeConfig extends IdentityHashMap<Type, ObjectSerializer> {
 
 		// awt
 		try {
-			put(Class.forName("java.awt.Color"), ColorCodec.instance);
-			put(Class.forName("java.awt.Font"), FontCodec.instance);
-			put(Class.forName("java.awt.Point"), PointCodec.instance);
-			put(Class.forName("java.awt.Rectangle"),
-					RectangleCodec.instance);
+//			put(Class.forName("java.awt.Color"), ColorCodec.instance);
+//			put(Class.forName("java.awt.Font"), FontCodec.instance);
+//			put(Class.forName("java.awt.Point"), PointCodec.instance);
+//			put(Class.forName("java.awt.Rectangle"),
+//					RectangleCodec.instance);
 		} catch (Throwable e) {
 			// skip
 		}

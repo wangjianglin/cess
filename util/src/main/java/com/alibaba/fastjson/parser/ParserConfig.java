@@ -106,19 +106,19 @@ import com.alibaba.fastjson.serializer.BooleanCodec;
 import com.alibaba.fastjson.serializer.CalendarCodec;
 import com.alibaba.fastjson.serializer.CharacterCodec;
 import com.alibaba.fastjson.serializer.CharsetCodec;
-import com.alibaba.fastjson.serializer.ColorCodec;
+//import com.alibaba.fastjson.serializer.ColorCodec;
 import com.alibaba.fastjson.serializer.CurrencyCodec;
 import com.alibaba.fastjson.serializer.FileCodec;
 import com.alibaba.fastjson.serializer.FloatCodec;
-import com.alibaba.fastjson.serializer.FontCodec;
+//import com.alibaba.fastjson.serializer.FontCodec;
 import com.alibaba.fastjson.serializer.InetAddressCodec;
 import com.alibaba.fastjson.serializer.InetSocketAddressCodec;
 import com.alibaba.fastjson.serializer.IntegerCodec;
 import com.alibaba.fastjson.serializer.LocaleCodec;
 import com.alibaba.fastjson.serializer.LongCodec;
 import com.alibaba.fastjson.serializer.PatternCodec;
-import com.alibaba.fastjson.serializer.PointCodec;
-import com.alibaba.fastjson.serializer.RectangleCodec;
+//import com.alibaba.fastjson.serializer.PointCodec;
+//import com.alibaba.fastjson.serializer.RectangleCodec;
 import com.alibaba.fastjson.serializer.ReferenceCodec;
 import com.alibaba.fastjson.serializer.StringCodec;
 import com.alibaba.fastjson.serializer.TimeZoneCodec;
@@ -296,10 +296,10 @@ public class ParserConfig {
         derializers.put(Closeable.class, JavaObjectDeserializer.instance);
 
         try {
-            derializers.put(Class.forName("java.awt.Point"), PointCodec.instance);
-            derializers.put(Class.forName("java.awt.Font"), FontCodec.instance);
-            derializers.put(Class.forName("java.awt.Rectangle"), RectangleCodec.instance);
-            derializers.put(Class.forName("java.awt.Color"), ColorCodec.instance);
+//            derializers.put(Class.forName("java.awt.Point"), PointCodec.instance);
+//            derializers.put(Class.forName("java.awt.Font"), FontCodec.instance);
+//            derializers.put(Class.forName("java.awt.Rectangle"), RectangleCodec.instance);
+//            derializers.put(Class.forName("java.awt.Color"), ColorCodec.instance);
         } catch (Throwable e) {
             // skip
         }

@@ -3,3 +3,8 @@
 
 
 1、maven打包加入  git  或   svn 版本号
+
+
+3、支持scala,https://github.com/spring-projects/spring-scala
+
+4、支持groovy

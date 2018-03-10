@@ -1,4 +1,4 @@
-<%@page import="lin.LinException"%>
+<%@page import="lin.CessException"%>
 <%@page import="java.io.PrintStream"%>
 <%@page import="java.io.ByteArrayOutputStream"%>
 <%@ page language="java"
@@ -25,8 +25,8 @@
 	stacktrace = stacktrace.replace("'","\\'").replace("\"","\\\"").replace("\\","\\\\").replace("\n","\\n").replace("\r","\\r");
 	long code = -1l;
 	System.out.println("code:"+code);
- 	if(exception instanceof LinException){
- 		LinException le = (LinException)exception;
+ 	if(exception instanceof CessException){
+ 		CessException le = (CessException)exception;
 		code = le.getCode();
 		if(code == 0){
 			code = -1l;
@@ -34,7 +34,7 @@
 	}
 
 	String message = null;
-	message = LinException.getMessage(code);
+	message = CessException.getMessage(code);
 	if(message == null){
 		message = exception.getMessage();
 	}

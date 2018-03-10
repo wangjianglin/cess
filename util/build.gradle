@@ -6,5 +6,11 @@
 //	}
 //}
 
-group = 'lin'
-version = '0.0.1-SNAPSHOT'
+//sourceCompatibility = 1.9
+//targetCompatibility = 1.9
+
+
+dependencies{
+    compile("org.bouncycastle:bcprov-jdk15on:1.59")
+    compile("org.bouncycastle:bcpg-jdk15on:1.59")
+}

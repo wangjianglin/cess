@@ -101,7 +101,7 @@ expression="org.springframework.stereotype.Controller" />
 		</property> -->
 	</bean>
 	
-	<bean id="exceptionResolver" class="lin.core.spring.LinExceptionHandler"/>
+	<bean id="exceptionResolver" class="lin.core.spring.CessExceptionHandler"/>
 	
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">

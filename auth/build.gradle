@@ -1,0 +1,46 @@
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+
+    compile "mysql:mysql-connector-java:6.0.6"
+
+    compile('org.springframework.boot:spring-boot-starter-web')
+
+    compile("org.springframework.boot:spring-boot-starter-security")
+//    compile('org.springframework.security.oauth:spring-security-oauth2:2.0.8.RELEASE')
+//    compile('org.springframework.security:spring-security-jwt:1.0.3.RELEASE')
+    compile("org.springframework.cloud:spring-cloud-starter-oauth2")
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
+
+
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+//    compile "org.thymeleaf.extras:thymeleaf-extras-springsecurity5"
+    compile "org.springframework.boot:spring-boot-devtools"
+//    <!-- JSTL (JSP standard Tag Library) JSP 标准标签库 -->
+//    compile('javax.servlet:jstl')
+//    compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+
+    compile project(":cloud")
+    compile project(":core")
+
+    compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisSpringBootVersion}")
+
+}
+
+
+bootRun {
+    jvmArgs = [
+            '--add-modules', 'java.xml.bind',
+    ]
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}

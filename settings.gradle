@@ -1,3 +1,7 @@
 
 //include "my-lib", "product"
-include "util","core","web","demo","client"
+include "util","core","web","demo","comm"
+include 'auth','eureka','gateway','shorturl'
+include 'cloud'
+include 'test'
+

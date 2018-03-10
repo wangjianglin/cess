@@ -1,36 +1,47 @@
-//apply plugin:'java'
-//apply plugin:'eclipse'
-//
-//
-//repositories {
-//	mavenCentral()
-//	maven{
-//		url "file://e:\\repo\\"
+//buildscript {
+//	ext {
+//		springBootVersion = '2.0.0.M4'
 //	}
-// }
-//
-//dependencies {
-//	compile 'org.springframework:spring-context:4.0.6.RELEASE'
-//	compile 'org.springframework:spring-core:4.0.6.RELEASE'
-//	compile 'org.springframework:spring-tx:4.0.6.RELEASE'
-//	compile 'org.springframework:spring-web:4.0.6.RELEASE'
-//	compile 'org.apache.struts:struts2-core:2.3.16.3'
-//	compile 'org.apache.struts:struts2-convention-plugin:2.3.16.3'
-//	compile 'org.hibernate:hibernate-core:4.3.6.Final'
-//	compile 'org.hibernate:hibernate-entitymanager:4.3.6.Final'
-//	compile 'javax.servlet:servlet-api:3.0-alpha-1'
-//	compile 'lin:lin-core:0.0.1-SNAPSHOT'
-//	//compile 'org.hibernate:ejb3-persistence:3.3.2.Beta1'
+//	repositories {
+//		mavenCentral()
+//	}
+//	dependencies {
+//		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//	}
 //}
-//
-//version = '0.0.1-SNAPSHOT'
-//apply plugin: 'war'
-apply plugin: 'war'
-//apply plugin: 'eclipse-wtp'
-//apply plugin: 'eclipse'
-//apply plugin: 'application'
-//apply plugin: 'tomcat'
-apply plugin: 'jetty'
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+compileJava {
+
+//	doFirst {
+//		options.compilerArgs = [
+//				'--module-path', classpath.asPath,
+//				'--add-modules', 'java.xml.bind',
+//				'--add-modules', 'java.xml.ws',
+//		]
+//	}
+}
+
+
+bootRun {
+	//inputs.property("moduleName", moduleName)
+//	doFirst {
+//		jvmArgs = [
+//				'--add-modules', 'java.xml.bind',
+//				'--add-modules', 'java.xml.ws',
+//		]
+//	}
+}
+
+//uploadArchives.dependsOn project.bootJar
+
+uploadArchives {
+	doFirst{
+		bootJar.execute();
+	}
+}
 
 //webAppDirName = 'webapp'
 
@@ -39,61 +50,29 @@ task sourcesWar(type: Jar, dependsOn: classes) {
 	from sourceSets.main.allSource
 	from 'src/main/webapp'
 }
- 
+
 artifacts {
 	archives sourcesWar
 }
-//
-//uploadArchives {
-//	repositories {
-//		mavenDeployer {
-//			pom.artifactId = 'lin-demo'
-//		}
-//	}
-//}
 
-repositories {
-	mavenCentral()
-}
-//
 //dependencies {
-//	def tomcatVersion = '7.0.11'
-//	tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-//		   "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
-//	tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
-//		exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
-//	}
+//
+////	<dependency>
+////	<groupId>org.apache.tomcat.embed</groupId>
+////			<artifactId>tomcat-embed-jasper</artifactId>
+////	<scope>provided</scope>
+////		</dependency>
+////	<dependency>
+////	<groupId>javax.servlet</groupId>
+////			<artifactId>jstl</artifactId>
+////	compile "org.apache.tomcat.embed:tomcat-embed-jasper"
+////	compile "javax.servlet:jstl"
+//	compile "org.apache.commons:commons-configuration2:2.1"
+//	compile project(':util')
+//	compile project(':core')
+//	compile project(':web')
+//
 //}
-dependencies {
-//	compile 'org.springframework:spring-context:4.0.6.RELEASE'
-//	compile 'org.springframework:spring-core:4.0.6.RELEASE'
-//	compile 'org.springframework:spring-tx:4.0.6.RELEASE'
-//	compile 'org.springframework:spring-web:4.0.6.RELEASE'
-//	compile 'org.springframework:spring-webmvc:4.0.6.RELEASE'
-//	compile 'org.apache.struts:struts2-core:2.3.16.3'
-//	compile 'org.apache.struts:struts2-convention-plugin:2.3.16.3'
-//	compile 'org.hibernate:hibernate-core:4.3.6.Final'
-//	compile 'org.hibernate:hibernate-entitymanager:4.3.6.Final'
-//	compile 'javax.servlet:javax.servlet-api:3.1.0'
-	//compile 'javax.inject:javax.inject:1'
-	
-	compile project(':util')
-	compile project(':core')
-	compile project(':web')
-	
-	//tomcat 插件的配置
-//	 def tomcatVersion = '8.0.11'
-//	 tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-//			 "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
-//	 tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
-//		 exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
-//	 }
-	
-//	def tomcatVersion = '8.0.11'
-//	tomcat "org.apache.tomcat:tomcat-catalina:${tomcatVersion}",
-//		   "org.apache.tomcat:tomcat-coyote:${tomcatVersion}",
-//		   "org.apache.tomcat:tomcat-jasper:${tomcatVersion}"
-}
 
 
 //tomcat 插件的配置
@@ -113,55 +92,34 @@ dependencies {
 
  
 //jetty 插件的的配置
-httpPort = 8080
-stopPort  = 8091
-stopKey = "kelljetty"
-//GRADLE_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=9999,server=y,suspend=n"
-
-jettyRun{
-	//jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
-	contextPath = ''
-	reload = 'automatic'
-	scanIntervalSeconds = 10
-}
+//apply plugin: 'jetty'
+//httpPort = 8080
+//stopPort  = 8091
+//stopKey = "kelljetty"
+////GRADLE_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=9999,server=y,suspend=n"
+//
+//jettyRun{
+//	//jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
+//	contextPath = ''
+//	reload = 'automatic'
+//	scanIntervalSeconds = 10
+//}
 
 //tomcat 插件的配置
 
-buildscript {
-	repositories {
-		//jcenter()
-		mavenCentral()
-	}
- 
-	dependencies {
-		//classpath 'com.bmuschko:gradle-tomcat-plugin:2.0'
-		//classpath 'bmuschko:gradle-tomcat-plugin:0.9.5'
-	}
-}
+
 
 dependencies{
 	compile "mysql:mysql-connector-java:5.1.33"
-
+	compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+	compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+//	compile "org.apache.cxf:cxf-spring-boot-starter-jaxws:${cxfVersion}"
+//	compile "org.apache.cxf:cxf-spring-boot-starter-jaxrs:${cxfVersion}"
 	compile project(':core')
 	compile project(':web')
-}
 
-//tomcat {
-//	httpPort = 8090
-//	httpsPort = 8091
-//	enableSSL = true
-//
-//	users {
-//		user {
-//			username = 'user1'
-//			password = '123456'
-//			roles = ['developers', 'admin']
-//		}
-//
-//		user {
-//			username = 'user2'
-//			password = 'abcdef'
-//			roles = ['manager']
-//		}
-//	}
-//}
+	runtime project(':core')
+	runtime project(':web')
+	runtime "com.h2database:h2:1.4.192"
+//	runtime "mysql:mysql-connector-java"
+}

@@ -1,5 +1,5 @@
 <%@page import="java.io.PrintStream"%>
-<%@page import="lin.LinException" %>
+<%@page import="lin.CessException" %>
 <%@page import="java.io.ByteArrayOutputStream"%>
 <%@ page language="java" 
     pageEncoding="UTF-8" isErrorPage="true"%>
